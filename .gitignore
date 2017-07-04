@@ -26,4 +26,3 @@ gradle.properties
 .idea/
 baggio.iml
 */build/
-baggio-message/build/

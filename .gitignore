@@ -26,3 +26,4 @@ gradle.properties
 .idea/
 baggio.iml
 */build/
+.DS_Store

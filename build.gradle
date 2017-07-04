@@ -6,12 +6,32 @@
  * user guide available at https://docs.gradle.org/3.5/userguide/tutorial_java_projects.html
  */
 
+
 allprojects {
     group = 'com.coloseo.baggio'
     version = '0.1'
 }
 
 subprojects {
+
+    buildscript {
+        repositories {
+            mavenLocal()
+            maven {
+                credentials {
+                    username nexusUsername
+                    password nexusPassword
+                }
+                url "https://nexus.coloseo.io/repository/maven-public/"
+            }
+            jcenter()
+        }
+        dependencies {
+            classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+        }
+    }
+
+
     apply plugin: 'java'
     apply plugin: 'maven'
 

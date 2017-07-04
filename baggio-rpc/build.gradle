@@ -6,9 +6,30 @@
  * user guide available at https://docs.gradle.org/3.5/userguide/tutorial_java_projects.html
  */
 
+apply plugin: 'com.github.johnrengelman.shadow'
+
 dependencies {
     compile project(':baggio-service')
     compile 'org.github:jazmin:1.0.0'
 
     testCompile 'junit:junit:4.12'
+}
+
+shadowJar {
+    baseName = 'BaggioRpcApplication'
+    classifier = null
+    version = null
+
+    dependencies {
+        exclude(dependency('org.github:jazmin:1.0.0'))
+    }
+
+}
+
+task dist(type: Zip) {
+    dependsOn shadowJar
+    from 'src/main/script'
+    from('build/libs') {
+        include(shadowJar.archiveName)
+    }
 }

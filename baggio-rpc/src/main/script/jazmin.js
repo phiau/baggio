@@ -6,9 +6,7 @@ $.setLogLevel('ALL');
 $.setLogFile('./log/'+$.getServerName()+".log",true);
 //$.disableConsoleLog();
 
-$.addServer(new MessageServer());
 $.addServer(new RpcServer());
 $.addServer(new ConsoleServer());
-$.addServer(new WebServer());
 
 $.loadApplication('./instance/default/BaggioRpcApplication.jar');

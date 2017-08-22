@@ -17,10 +17,16 @@ public class EchoServiceTest {
 
     @Test
     public void tesEchoMessage() throws URISyntaxException {
-        JazminRpcDriver driver = new JazminRpcDriver();
-        driver.addRemoteServer("jazmin://127.0.0.1:6001/cluster/rpc");
-        Jazmin.addDriver(driver);
-        Jazmin.start();
+        JazminRpcDriver driver = null;
+        if (Jazmin.getDriver(JazminRpcDriver.class) == null) {
+            driver = new JazminRpcDriver();
+            driver.addRemoteServer("jazmin://127.0.0.1:6001/cluster/rpc");
+            Jazmin.addDriver(driver);
+            Jazmin.start();
+        }
+        else {
+            driver = Jazmin.getDriver(JazminRpcDriver.class);
+        }
         EchoService echoService = driver.create(EchoService.class, "cluster");
         String msg = echoService.echo("message");
         MatcherAssert.assertThat(msg, CoreMatchers.equalTo("MESSAGE"));

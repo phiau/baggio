@@ -22,7 +22,6 @@
 hs_err_pid*
 
 .gradle
-gradle.properties
 .idea/
 baggio.iml
 */build/

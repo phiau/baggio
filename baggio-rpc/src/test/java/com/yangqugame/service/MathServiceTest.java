@@ -4,6 +4,7 @@ import jazmin.core.Jazmin;
 import jazmin.driver.rpc.JazminRpcDriver;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -13,9 +14,10 @@ import java.net.URISyntaxException;
  */
 public class MathServiceTest {
 
-    @Test
-    public void tesMathMessage() throws URISyntaxException {
-        JazminRpcDriver driver = null;
+    private JazminRpcDriver driver;
+
+    @Before
+    public void setup() throws URISyntaxException {
         if (Jazmin.getDriver(JazminRpcDriver.class) == null) {
             driver = new JazminRpcDriver();
             driver.addRemoteServer("jazmin://127.0.0.1:6001/cluster/rpc");
@@ -25,6 +27,10 @@ public class MathServiceTest {
         else {
             driver = Jazmin.getDriver(JazminRpcDriver.class);
         }
+    }
+
+    @Test
+    public void tesMathMessage() throws URISyntaxException {
         MathService mathService = driver.create(MathService.class, "cluster");
         int sum = mathService.add(1, 2);
         MatcherAssert.assertThat(sum, CoreMatchers.equalTo(3));

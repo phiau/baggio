@@ -1,0 +1,3 @@
+dependencies {
+    compile 'org.github:jazmin:1.0.0'
+}

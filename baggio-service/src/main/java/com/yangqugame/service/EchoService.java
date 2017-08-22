@@ -5,6 +5,9 @@ package com.yangqugame.service;
  * baggio
  */
 
+
+import jazmin.driver.rpc.AsyncCallback;
+
 /**
  * 同步Echo Service
  */

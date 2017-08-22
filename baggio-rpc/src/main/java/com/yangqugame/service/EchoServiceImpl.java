@@ -1,6 +1,8 @@
 package com.yangqugame.service;
 
 
+import jazmin.driver.rpc.AsyncCallback;
+
 /**
  * Created by ging on 04/07/2017.
  * baggio

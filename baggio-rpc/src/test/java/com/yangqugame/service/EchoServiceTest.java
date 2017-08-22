@@ -32,10 +32,19 @@ public class EchoServiceTest {
     }
 
     @Test
-    public void tesEchoMessage() throws URISyntaxException {
+    public void tesEchoMessage() {
         EchoService echoService = driver.create(EchoService.class, "cluster");
         String msg = echoService.echo("message");
         MatcherAssert.assertThat(msg, CoreMatchers.equalTo("MESSAGE"));
     }
+
+    @Test
+    public void testEchoAsyncMessage() throws Exception{
+        EchoServiceAsync echoServiceAsync = driver.createAsync(EchoServiceAsync.class, "cluster");
+        echoServiceAsync.echo("message", (res, e) -> {
+            MatcherAssert.assertThat(res, CoreMatchers.equalTo("MESSAGE"));
+        });
+    }
+
 
 }

@@ -1,6 +1,6 @@
 package com.yangqugame;
 
-import com.yangqugame.service.EchoService;
+import com.yangqugame.message.EchoMessage;
 import jazmin.core.Jazmin;
 import jazmin.core.app.Application;
 import jazmin.server.msg.MessageServer;
@@ -16,6 +16,6 @@ public class BaggioMessageApplication extends Application {
     public void init() throws Exception {
         super.init();
         MessageServer server = Jazmin.getServer(MessageServer.class);
-        server.registerService(new EchoService());
+        server.registerService(new EchoMessage());
     }
 }

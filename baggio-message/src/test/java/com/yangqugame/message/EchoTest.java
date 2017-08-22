@@ -18,7 +18,7 @@ public class EchoTest {
     public void echo() {
         MessageClient client = new MessageClient();
         client.connect("127.0.0.1", 3001);
-        ResponseMessage responseMessage = client.invokeSync("EchoService.echo", new String[]{"hello"});
+        ResponseMessage responseMessage = client.invokeSync("EchoMessage.echo", new String[]{"hello"});
         MatcherAssert.assertThat(responseMessage.responseObject.toString(), CoreMatchers.containsString("echo:"));
     }
 

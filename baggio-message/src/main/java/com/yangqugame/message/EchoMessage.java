@@ -1,5 +1,7 @@
-package com.yangqugame.service;
+package com.yangqugame.message;
 
+import jazmin.core.Jazmin;
+import jazmin.driver.rpc.JazminRpcDriver;
 import jazmin.server.msg.Context;
 import jazmin.server.msg.Service;
 
@@ -8,7 +10,7 @@ import jazmin.server.msg.Service;
  * baggio
  */
 
-public class EchoService {
+public class EchoMessage {
 
     public void echo(Context context, String msg) {
         context.ret("echo:" + msg);

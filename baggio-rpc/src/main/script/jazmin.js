@@ -9,4 +9,4 @@ $.setLogFile('./log/'+$.getServerName()+".log",true);
 $.addServer(new RpcServer());
 $.addServer(new ConsoleServer());
 
-$.loadApplication('./instance/default/BaggioRpcApplication.jar');
+$.loadApplication('./instance/rpc/BaggioRpcApplication.jar');

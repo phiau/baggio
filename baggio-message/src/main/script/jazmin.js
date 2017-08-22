@@ -9,6 +9,9 @@ $.setLogFile('./log/'+$.getServerName()+".log",true);
 var msg = new MessageServer();
 msg.setPort(3001);
 $.addServer(msg);
-$.addServer(new ConsoleServer());
+//$.addServer(new ConsoleServer());
+var driver = new JazminRpcDriver();
+driver.addRemoteServer("jazmin://127.0.0.1:6001/cluster/rpc");
+$.addDriver(driver);
 
-$.loadApplication('./instance/default/BaggioMessageApplication.jar');
+$.loadApplication('./instance/message/BaggioMessageApplication.jar');

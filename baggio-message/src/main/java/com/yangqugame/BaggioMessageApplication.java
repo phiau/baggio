@@ -17,7 +17,7 @@ public class BaggioMessageApplication extends Application {
     public void init() throws Exception {
         super.init();
         MessageServer server = Jazmin.getServer(MessageServer.class);
-        server.registerService(new EchoMessage());
         server.registerService(new MathMessage());
+        server.registerService(new EchoMessage());
     }
 }

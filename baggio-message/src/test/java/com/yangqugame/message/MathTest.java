@@ -14,15 +14,9 @@ public class MathTest {
 
     @Test
     public void add() {
-        MathMessage.MathItem item = new MathMessage.MathItem();
-        item.num1 = 1;
-        item.num2 = 2;
-
         MessageClient client = new MessageClient();
         client.connect("127.0.0.1", 3001);
-//        ResponseMessage responseMessage = client.invokeSync("MathMessage.add", new String[]{JSON.toJSONString(item)});
         ResponseMessage responseMessage = client.invokeSync("MathMessage.add", new String[]{"1", "2"});
-//        MathMessage.MathItem result = JSON.parseObject(responseMessage.responseObject.toString(), MathMessage.MathItem.class);
-        MatcherAssert.assertThat(responseMessage.responseObject, CoreMatchers.equalTo(3));
+        MatcherAssert.assertThat(responseMessage.responseObject.toString(), CoreMatchers.containsString("3"));
     }
 }

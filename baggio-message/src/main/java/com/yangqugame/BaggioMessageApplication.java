@@ -1,10 +1,10 @@
 package com.yangqugame;
 
-import com.yangqugame.message.EchoMessage;
-import com.yangqugame.message.MathMessage;
+import com.yangqugame.message.BaggioProtobufInvokeService;
 import jazmin.core.Jazmin;
 import jazmin.core.app.Application;
 import jazmin.server.msg.MessageServer;
+import jazmin.server.protobuf.ProtobufServer;
 
 /**
  * Created by ging on 05/07/2017.
@@ -16,8 +16,8 @@ public class BaggioMessageApplication extends Application {
     @Override
     public void init() throws Exception {
         super.init();
-        MessageServer server = Jazmin.getServer(MessageServer.class);
-        server.registerService(new MathMessage());
-        server.registerService(new EchoMessage());
+        ProtobufServer server = Jazmin.getServer(ProtobufServer.class);
+        BaggioProtobufInvokeService invokeService = new BaggioProtobufInvokeService();
+        server.setProtobufInvokeService(invokeService);
     }
 }

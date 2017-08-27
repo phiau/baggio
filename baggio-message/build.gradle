@@ -6,14 +6,52 @@
  * user guide available at https://docs.gradle.org/3.5/userguide/tutorial_java_projects.html
  */
 
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'idea'
+
+ext {
+    protobufVersion = '2.6.1'
+}
 
 dependencies {
     compile project(':baggio-service')
     compile 'org.github:jazmin:1.1.1'
+    compile "com.google.protobuf:protobuf-java:${protobufVersion}"
 
     testCompile 'junit:junit:4.12'
 }
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+
+        generateProtoTasks {
+            all().each { task ->
+                task.builtins {
+                    remove java
+                }
+                task.builtins {
+                    java { }
+                }
+            }
+        }
+    }
+
+    generatedFilesBaseDir = "$projectDir/gen"
+}
+
+clean {
+    delete protobuf.generatedFilesBaseDir
+}
+idea {
+    module {
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java");
+        // If you have additional sourceSets and/or codegen plugins, add all of them
+    }
+}
+
 
 shadowJar {
     baseName = 'BaggioMessageApplication'

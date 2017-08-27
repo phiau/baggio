@@ -1,0 +1,30 @@
+//登录
+
+package x1.proto.pb;
+
+option java_package = "x1.proto.pb";
+
+option java_outer_classname = "Login";
+
+//登录返回
+message ResLoginMessage{
+	repeated int32 result = 1;//返回结果
+}
+
+//返回账号ID
+message ResAccountIdMessage{
+	repeated int32 accountId = 1;//账号ID
+}
+
+//登录请求
+message ReqLoginMessage{
+	required string accountName = 1;//账号名
+	required string password = 2;//密码
+	required int32 platform = 3;//平台id
+}
+
+//请求账号ID
+message ReqAccountIdMessage{
+	required int32 param = 1;//参数 无实际意义 传0就可以了
+}
+

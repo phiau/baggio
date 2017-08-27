@@ -12,26 +12,26 @@ allprojects {
     version = '0.1'
 }
 
-subprojects {
-
-    buildscript {
-        repositories {
-            mavenLocal()
-            maven {
-                credentials {
-                    username nexusUsername
-                    password nexusPassword
-                }
-                url "https://nexus.coloseo.io/repository/maven-public/"
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+            credentials {
+                username nexusUsername
+                password nexusPassword
             }
-            jcenter()
+            url "https://nexus.coloseo.io/repository/maven-public/"
         }
-        dependencies {
-            classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
-        }
+        jcenter()
+        mavenCentral()
     }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+    }
+}
 
-
+subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
 

@@ -26,3 +26,4 @@ hs_err_pid*
 baggio.iml
 */build/
 .DS_Store
+gen/

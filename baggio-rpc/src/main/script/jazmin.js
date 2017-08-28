@@ -9,4 +9,15 @@ $.setLogFile('./log/'+$.getServerName()+".log",true);
 $.addServer(new RpcServer());
 $.addServer(new ConsoleServer());
 
+var db = new C3p0ConnectionDriver();
+db.setUser("baggio");
+db.setDriverClass("com.mysql.jdbc.Driver");
+db.setPassword("baggio");
+db.setUrl("jdbc:mysql://127.0.0.1:3306/baggio?user=baggio&password=baggio&useUnicode=true&characterEncoding=UTF8");
+db.setInitialPoolSize(5);
+db.setMaxPoolSize(10);
+db.setMinPoolSize(5);
+db.setStatSql(true)
+$.addDriver(db);
+
 $.loadApplication('./instance/rpc/BaggioRpcApplication.jar');

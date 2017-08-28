@@ -27,3 +27,4 @@ baggio.iml
 */build/
 .DS_Store
 gen/
+.data/

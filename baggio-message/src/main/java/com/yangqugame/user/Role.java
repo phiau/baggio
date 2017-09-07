@@ -1,9 +1,9 @@
 package com.yangqugame.user;
 
-import com.yangqugame.global.ServerConfig;
-import com.yangqugame.global.ServerRuntime;
 import com.yangqugame.db.dao.data.RoleInfoDao;
 import com.yangqugame.db.entry.data.RoleInfo;
+import com.yangqugame.global.BaseConfig;
+import com.yangqugame.global.ServerRuntime;
 
 /**
  * Created by Administrator on 2017/9/6 0006.
@@ -11,7 +11,7 @@ import com.yangqugame.db.entry.data.RoleInfo;
 public class Role {
 
     public static long genRoleId() {
-        String tmp = String.format("%d%02d%06d", ServerConfig.getServerId(), 0, ServerRuntime.getNewRoleId());
+        String tmp = String.format("%d%02d%06d", BaseConfig.getServerId(), 0, ServerRuntime.getNewRoleId());
         return Long.parseLong(tmp);
     }
 

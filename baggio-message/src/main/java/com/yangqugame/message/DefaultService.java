@@ -12,11 +12,6 @@ public class DefaultService implements MessageService {
     private static Logger logger = LoggerFactory.getLogger(DefaultService.class);
 
     @Override
-    public void invoke(Context context) {
-        logger.error("找不到请求的 service");
-    }
-
-    @Override
     public void handler(Context context, Object o) {
         logger.error("找不到请求的 service");
     }

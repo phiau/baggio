@@ -20,6 +20,7 @@ public class MessageSender {
         ProtobufMessage protobufMessage = bean2ProtobufMessage(o);
         if (null != protobufMessage) {
             context.ret(protobufMessage);
+            context.close(false);
         }
     }
 

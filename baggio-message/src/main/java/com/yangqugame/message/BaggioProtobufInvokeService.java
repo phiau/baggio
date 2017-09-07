@@ -32,10 +32,8 @@ public class BaggioProtobufInvokeService implements ProtobufInvokeService {
         try {
             MessageService service = (MessageService) cls.newInstance();
             service.handler(context, bean);
-//            service.invoke(context);
         } catch (Exception e) {
             logger.catching(e);
         }
-
     }
 }

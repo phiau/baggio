@@ -13,7 +13,7 @@ import java.util.List;
 public class SystemConfigDao extends SmartBeanDAO<SystemConfig> {
 
     public SystemConfigDao() {
-        setTableName("ServerConfig");
+        setTableName("ConfigManager");
         setTableNamePrefix("");
         setConnectionDriver(DBPoolMgr.getDriverConfig());
         getConnectionDriver().startTransaction(false);

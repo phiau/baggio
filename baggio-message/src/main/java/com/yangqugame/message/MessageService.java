@@ -9,7 +9,6 @@ import jazmin.server.protobuf.Context;
 
 public interface MessageService {
 
-    void invoke(Context context);
-
     void handler(Context context, Object o);
+
 }

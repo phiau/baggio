@@ -1,18 +1,13 @@
 package com.yangqugame.annotation;
 
-import com.alibaba.fastjson.JSON;
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 import org.reflections.Reflections;
-import x1.proto.pb.Login;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/9/5 0005.
@@ -34,6 +29,18 @@ public class ProtoManager {
         return -1;
     }
 
+    public static String info() {
+        Set<Integer> set = code2ProtoMap.keySet();
+        List<Integer> list = new ArrayList<>(set);
+        list.sort((o1, o2) -> o1 - o2);
+        String info = "";
+        for (Integer i : list) {
+            Proto p = code2ProtoMap.get(i);
+            info += String.format("code:%d, message:%s, service:%s\n", p.code(), p.message().getSimpleName(), p.service().getSimpleName());
+        }
+        return info;
+    }
+
     public static void scan(String path) {
         Reflections reflections = new Reflections(path);
         Set<Class<?>> set = reflections.getTypesAnnotatedWith(Proto.class);
@@ -43,7 +50,6 @@ public class ProtoManager {
                 code2ProtoMap.put(proto.code(), proto);
                 bean2ProtoMap.put(cls, proto);
                 code2Bean.put(proto.code(), cls);
-                System.out.println(String.format("%d, %s, %s", proto.code(), proto.message().getSimpleName(), proto.service().getSimpleName()));
             }
         }
     }
@@ -136,13 +142,6 @@ public class ProtoManager {
 
     public static void main(String [] argv) {
         scan("com");
-        Login.ReqLoginMessage.Builder builder = Login.ReqLoginMessage.newBuilder();
-        builder.setAccessToken("accName66");
-
-        Object o = byte2Message(builder.build().toByteArray(), 10001);
-        System.out.println(JSON.toJSONString(o));
-
-        Login.ReqLoginMessage m1 = (Login.ReqLoginMessage) bean2Message(o);
-        System.out.println(m1.getAccessToken());
+        System.out.println(info());
     }
 }

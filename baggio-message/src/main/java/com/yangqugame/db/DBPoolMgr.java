@@ -1,5 +1,6 @@
 package com.yangqugame.db;
 
+import com.yangqugame.global.DbConfig;
 import jazmin.driver.jdbc.C3p0ConnectionDriver;
 
 import java.beans.PropertyVetoException;

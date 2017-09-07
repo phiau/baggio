@@ -10,7 +10,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 dependencies {
     compile project(':baggio-service')
-    compile 'org.github:jazmin:1.1.2'
+    compile 'org.github:jazmin:1.1.3'
 
     testCompile 'junit:junit:4.12'
 }
@@ -21,7 +21,7 @@ shadowJar {
     version = null
 
     dependencies {
-        exclude(dependency('org.github:jazmin:1.1.2'))
+        exclude(dependency('org.github:jazmin:1.1.3'))
     }
 
 }

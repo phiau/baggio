@@ -27,4 +27,6 @@ public @interface Proto {
      * @return 对应的处理类
      */
     public Class service() default DefaultService.class;
+
+    public String method() default "handler";
 }

@@ -1,12 +1,15 @@
 package com.yangqugame.message;
 
 import com.yangqugame.annotation.ProtoManager;
+import com.yangqugame.utils.StringUtils;
 import jazmin.log.Logger;
 import jazmin.log.LoggerFactory;
 import jazmin.server.protobuf.Context;
 import jazmin.server.protobuf.ProtobufInvokeService;
 import jazmin.server.protobuf.ProtobufMessage;
 import jazmin.util.JSONUtil;
+
+import java.lang.reflect.Method;
 
 
 /**
@@ -21,19 +24,25 @@ public class BaggioProtobufInvokeService implements ProtobufInvokeService {
     @Override
     public void invokeService(Context context) {
         ProtobufMessage requestMessage = context.getRequestMessage();
-        int id = requestMessage.getId();
-        Class cls = ProtoManager.getHandlerClass(id);
-        Object bean = ProtoManager.byte2Message(requestMessage.getData(), id);
+        int code = requestMessage.getId();
+        Object bean = ProtoManager.byte2Message(requestMessage.getData(), code);
         if (null != bean) {
-            logger.debug("从客户端接收到的消息为:" + JSONUtil.toJson(bean));
+            logger.debug("received message from client: {}", JSONUtil.toJson(bean));
         } else {
-            logger.error("解析客户端消息异常 id:{}", id);
+            logger.error("parse client message exception code:{}", code);
+            return;
         }
         try {
-            MessageService service = (MessageService) cls.newInstance();
-            service.handler(context, bean);
+            Class cls = ProtoManager.getHandlerClass(code);
+            String m = ProtoManager.getHandlerMethod(code);
+            if (null == cls || StringUtils.isNullOrEmpty(m)) {
+                logger.error("can not find cls or method with code : {}", code);
+                return;
+            }
+            Method method = cls.getMethod(m, Context.class, bean.getClass());
+            method.invoke(cls.newInstance(), context, bean);
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("invoke method exception code:{}", code, e);
         }
     }
 }

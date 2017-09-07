@@ -36,7 +36,7 @@ public class ProtoManager {
         String info = "";
         for (Integer i : list) {
             Proto p = code2ProtoMap.get(i);
-            info += String.format("code:%d, message:%s, service:%s\n", p.code(), p.message().getSimpleName(), p.service().getSimpleName());
+            info += String.format("code:%d, message:%s, service:%s, method:%s\n", p.code(), p.message().getSimpleName(), p.service().getSimpleName(), p.method());
         }
         return info;
     }
@@ -136,6 +136,20 @@ public class ProtoManager {
     public static Class getHandlerClass(int code) {
         if (code2ProtoMap.containsKey(code)) {
             return code2ProtoMap.get(code).service();
+        }
+        return null;
+    }
+
+    public static Class getBeanClass(int code) {
+        if (code2Bean.containsKey(code)) {
+            return code2Bean.get(code);
+        }
+        return null;
+    }
+
+    public static String getHandlerMethod(int code) {
+        if (code2ProtoMap.containsKey(code)) {
+            return code2ProtoMap.get(code).method();
         }
         return null;
     }

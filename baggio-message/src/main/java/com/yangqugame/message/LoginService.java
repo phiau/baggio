@@ -1,5 +1,6 @@
 package com.yangqugame.message;
 
+import com.yangqugame.global.BaseConfig;
 import com.yangqugame.model.JsonResult;
 import com.yangqugame.model.VerifyResult;
 import com.yangqugame.msgBean.ReqLogin;
@@ -18,16 +19,13 @@ import java.io.IOException;
  * Created by ging on 27/08/2017.
  * baggio
  */
-
-public class LoginService implements MessageService {
+public class LoginService {
 
     private static Logger logger = LoggerFactory.getLogger(LoginService.class);
-    private final static String verifyUrl = "http://127.0.0.1:8080/verify";
 
-    @Override
-    public void handler(Context context, Object o) {
-        ReqLogin reqLogin = (ReqLogin) o;
+    public void login(Context context, ReqLogin reqLogin) {
         HttpClientDriver hd = new HttpClientDriver();
+        String verifyUrl = BaseConfig.getVerifyServerUrl();
         hd.get(verifyUrl).addQueryParam("accessToken", reqLogin.getAccessToken()).execute((HttpResponse rsp, Throwable e) -> {
             ResLogin resLogin = new ResLogin();
             try {

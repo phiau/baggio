@@ -7,6 +7,8 @@ import jazmin.server.protobuf.Context;
 import jazmin.server.protobuf.ProtobufMessage;
 import x1.proto.pb.Login;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by ging on 27/08/2017.
  * baggio
@@ -24,8 +26,13 @@ public class LoginService implements MessageService {
             Login.ReqLoginMessage message = Login.ReqLoginMessage.parseFrom(data);
             logger.info(message);
             Login.ResLoginMessage res = Login.ResLoginMessage.newBuilder().addResult(1).build();
-            ProtobufMessage msg = new ProtobufMessage(10002, res.toByteArray().length, res.toByteArray());
-            context.ret(msg);
+            Runnable task = () -> {
+                ProtobufMessage msg = new ProtobufMessage(10002, res.toByteArray().length, res.toByteArray());
+                context.ret(msg);
+                context.close(false);
+            };
+            new Thread(task).start();
+
         } catch (InvalidProtocolBufferException e) {
             logger.catching(e);
         }

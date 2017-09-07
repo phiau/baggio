@@ -19,7 +19,7 @@ dependencies {
     compile project(':baggio-service')
     compile 'org.github:jazmin:1.1.2'
     compile "com.google.protobuf:protobuf-java:${protobufVersion}"
-
+    compile 'org.reflections:reflections:0.9.11'
     testCompile 'junit:junit:4.12'
 }
 

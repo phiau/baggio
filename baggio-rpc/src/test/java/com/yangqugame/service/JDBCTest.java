@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 /**
  * Created by ging on 28/08/2017.
@@ -26,9 +27,9 @@ public class JDBCTest {
     public void setup() throws Exception {
         if (Jazmin.getDriver(JdbcConnectionDriver.class) == null) {
             driver = new C3p0ConnectionDriver();
-            driver.setUrl("jdbc:mysql://127.0.0.1:3306/baggio?user=baggio&password=baggio&useUnicode=true&characterEncoding=UTF8");
-            driver.setUser("baggio");
-            driver.setPassword("baggio");
+            driver.setUrl("jdbc:mysql://127.0.0.1:3306/baggio_world_data?user=root&password=&useUnicode=true&characterEncoding=UTF8");
+            driver.setUser("root");
+            driver.setPassword("");
             driver.setDriverClass("com.mysql.jdbc.Driver");
             driver.setInitialPoolSize(5);
             driver.setMaxPoolSize(10);
@@ -90,7 +91,7 @@ public class JDBCTest {
         dao.setTableName("test");
         dao.setTableNamePrefix("");
         TestEntry entry = dao.query(QueryTerms.create().where("id", 1));
-        MatcherAssert.assertThat(entry.id, CoreMatchers.equalTo(1));
+        MatcherAssert.assertThat(entry.getId(), CoreMatchers.equalTo(1));
     }
 
     @Test
@@ -100,10 +101,25 @@ public class JDBCTest {
         dao.setConnectionDriver(driver);
         dao.setTableName("test");
         dao.setTableNamePrefix("");
-        TestEntry entry = new TestEntry(1111);
+        TestEntry entry = new TestEntry(1118);
         int rs = dao.insert(entry, false);
         driver.commit();
         MatcherAssert.assertThat(rs, CoreMatchers.equalTo(0));
+//
+//        AccountDao dao = new AccountDao();
+//        driver.startTransaction(true);
+//        dao.setConnectionDriver(driver);
+//        dao.setTableName("account");
+//        dao.setTableNamePrefix("");
+//
+//        Account entry = new Account();
+//        entry.setAccountname("name4");
+//        entry.setAccountid(6);
+//        entry.setAccounttype((byte) 1);
+//        entry.setPassword("psw");
+//        int rs = dao.insert(entry, false);
+//        driver.commit();
+//        MatcherAssert.assertThat(rs, CoreMatchers.equalTo(0));
     }
 
 

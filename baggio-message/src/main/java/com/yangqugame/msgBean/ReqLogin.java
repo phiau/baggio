@@ -1,43 +1,21 @@
 package com.yangqugame.msgBean;
 
+import com.yangqugame.annotation.Proto;
+import com.yangqugame.message.LoginService;
+import x1.proto.pb.Login;
+
 /**
  * Created by Administrator on 2017/8/28 0028.
  */
+@Proto(code = 10001, message = Login.ReqLoginMessage.class, service = LoginService.class)
 public class ReqLogin {
-    private String accountName;
-    private String password;
-    private int platform;
+    private String accessToken;
 
-    public String getAccountName() {
-        return accountName;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getPlatform() {
-        return platform;
-    }
-
-    public void setPlatform(int platform) {
-        this.platform = platform;
-    }
-
-    @Override
-    public String toString() {
-        return "ReqLogin{" +
-                "accountName='" + accountName + '\'' +
-                ", password='" + password + '\'' +
-                ", platform=" + platform +
-                '}';
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }

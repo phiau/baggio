@@ -1,0 +1,10 @@
+// 事件常亮
+
+package x1.proto.event;
+
+option java_outer_classname = "EventConst";
+
+enum E {
+    create_role = 1;  // 客户端需要创建角色
+}
+

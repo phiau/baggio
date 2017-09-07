@@ -1,0 +1,10 @@
+// 事件
+
+package x1.proto.event;
+
+option java_outer_classname = "Event";
+
+message EventWithoutParam {
+    required uint64 event = 1;  // 事件，用位来标识，暂时限定有 64 个事件
+}
+

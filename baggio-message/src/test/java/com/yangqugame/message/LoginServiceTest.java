@@ -21,9 +21,7 @@ public class LoginServiceTest {
         Login.ReqLoginMessage req = Login
                 .ReqLoginMessage
                 .newBuilder()
-                .setAccountName("Ging")
-                .setPassword("passowrd")
-                .setPlatform(1)
+                .setAccessToken("kWTNsJvyDccTpvjSbmHhfOMynlym")
                 .build();
         ProtobufMessage msg = client.invokeSync(10001, req.toByteArray());
         MatcherAssert.assertThat(msg.getId(), CoreMatchers.equalTo(10002));

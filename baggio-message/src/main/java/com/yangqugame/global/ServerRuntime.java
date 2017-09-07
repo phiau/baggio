@@ -1,0 +1,28 @@
+package com.yangqugame.global;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * 服务器运行的一些全局属性
+ * Created by Administrator on 2017/9/6 0006.
+ */
+public class ServerRuntime {
+
+    // 服务器状态，1 正常，非 1 系统维护或者启动中
+    private static byte status = 0;
+
+    // 最后一个角色 id
+    private static AtomicInteger lastRoleId;
+
+    public static void initLastRoleId(int lastId) {
+        lastRoleId = new AtomicInteger(lastId);
+    }
+
+    public static int getNewRoleId() {
+        return lastRoleId.getAndIncrement();
+    }
+
+    public static byte getStatus() {
+        return status;
+    }
+}

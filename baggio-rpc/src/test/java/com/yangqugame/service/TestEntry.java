@@ -7,17 +7,23 @@ import java.io.Serializable;
  * baggio
  */
 
-public class TestEntry implements Serializable {
+public class TestEntry {
 
-    public Integer id;
+    public int id;
 
     public TestEntry() {
 
     }
 
-    public TestEntry(Integer id) {
+    public TestEntry(int id) {
         this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }

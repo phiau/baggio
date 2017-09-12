@@ -1,6 +1,9 @@
 package com.yangqugame.db.entry.data;
 
+import com.yangqugame.annotation.Proto;
+import x1.proto.pb.Login;
 
+@Proto(message = Login.RoleInfo.class)
 public class RoleInfo {
 
   public long roleid;
@@ -8,15 +11,15 @@ public class RoleInfo {
   public String nickname;
   public String face;
   public int exp;
-  public short level;
-  public short vip;
+  public int level;
+  public int vip;
   public int diamond;
   public int gold;
   public int st;
   public int bp;
   public int commonfragment;
   public int unionid;
-  public byte unionposition;
+  public int unionposition;
   public int chiefcoach;
   public int asscoach;
   public int chiefscout;
@@ -70,20 +73,20 @@ public class RoleInfo {
   }
 
 
-  public short getLevel() {
+  public int getLevel() {
     return level;
   }
 
-  public void setLevel(short level) {
+  public void setLevel(int level) {
     this.level = level;
   }
 
 
-  public short getVip() {
+  public int getVip() {
     return vip;
   }
 
-  public void setVip(short vip) {
+  public void setVip(int vip) {
     this.vip = vip;
   }
 
@@ -142,11 +145,11 @@ public class RoleInfo {
   }
 
 
-  public byte getUnionposition() {
+  public int getUnionposition() {
     return unionposition;
   }
 
-  public void setUnionposition(byte unionposition) {
+  public void setUnionposition(int unionposition) {
     this.unionposition = unionposition;
   }
 

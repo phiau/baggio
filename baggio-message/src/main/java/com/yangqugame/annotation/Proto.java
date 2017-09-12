@@ -16,7 +16,7 @@ public @interface Proto {
     /**
      * @return 协议编号
      */
-    public int code();
+    public int code() default 0;
 
     /**
      * @return 对应的 protocol buffer message 类

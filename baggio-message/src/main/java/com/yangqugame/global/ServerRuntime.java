@@ -1,6 +1,10 @@
 package com.yangqugame.global;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import com.yangqugame.db.DBPoolMgr;
+import com.yangqugame.user.Role;
+
+import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * 服务器运行的一些全局属性
@@ -12,17 +16,43 @@ public class ServerRuntime {
     private static byte status = 0;
 
     // 最后一个角色 id
-    private static AtomicInteger lastRoleId;
+    private static AtomicLong lastRoleId;
 
-    public static void initLastRoleId(int lastId) {
-        lastRoleId = new AtomicInteger(lastId);
+    public static void initLastRoleId(long lastId) {
+        lastRoleId = new AtomicLong(lastId);
     }
 
-    public static int getNewRoleId() {
+    private static void initLastRoleId() {
+        try {
+            DBPoolMgr.getDriverData().executeQuery("SELECT MAX(roleId) FROM `roleinfo`;", (meta, set) -> {
+                try {
+                    while (set.next()) {
+                        long id = set.getLong(1);
+                        id = Role.getPartRoleId(id);
+                        ServerRuntime.initLastRoleId(id);
+                        break;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static long getNewRoleId() {
+        if (null == lastRoleId) {
+            initLastRoleId(0);
+        }
         return lastRoleId.getAndIncrement();
     }
 
     public static byte getStatus() {
         return status;
+    }
+
+    public static void init() {
+        initLastRoleId();
     }
 }

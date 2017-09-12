@@ -2,6 +2,7 @@ package com.yangqugame.msgUtils;
 
 import com.google.protobuf.Message;
 import com.yangqugame.annotation.ProtoManager;
+import com.yangqugame.message.SessionManager;
 import jazmin.log.Logger;
 import jazmin.log.LoggerFactory;
 import jazmin.server.protobuf.Context;
@@ -21,6 +22,13 @@ public class MessageSender {
         if (null != protobufMessage) {
             context.ret(protobufMessage);
             context.close(false);
+        }
+    }
+
+    public static void send(int accountId, Object o) {
+        ProtobufMessage protobufMessage = bean2ProtobufMessage(o);
+        if (null != protobufMessage) {
+            SessionManager.sendMessage(accountId, protobufMessage);
         }
     }
 

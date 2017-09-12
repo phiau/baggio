@@ -5,6 +5,8 @@ import com.yangqugame.db.entry.data.RoleInfo;
 import jazmin.driver.jdbc.QueryTerms;
 import jazmin.driver.jdbc.SmartBeanDAO;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/9/6 0006.
  */
@@ -26,6 +28,17 @@ public class RoleInfoDao extends SmartBeanDAO<RoleInfo> {
         QueryTerms qt = new QueryTerms();
         qt.where("accountId", accountId);
         return query(qt);
+    }
+
+    @Override
+    protected List<RoleInfo> queryList(QueryTerms qt, String... excludeProperties) {
+        return super.queryList(qt, excludeProperties);
+    }
+
+    public List<RoleInfo> queryList(int accountId) {
+        QueryTerms qt = new QueryTerms();
+        qt.where("accountId", accountId);
+        return queryList(qt);
     }
 
     @Override

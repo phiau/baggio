@@ -16,6 +16,7 @@ public class ProtoManager {
 
     private static Map<Integer, Proto> code2ProtoMap = new HashMap<>();  // key:协议号, value:协议信息
     private static Map<Class, Proto> bean2ProtoMap = new HashMap<>();  // key:bean 类, value:协议信息
+    private static Map<Class, Class> message2beanMap = new HashMap<>();  // key:Protocol Buffer 类, value:bean 类
     private static Map<Integer, Class> code2Bean = new HashMap<>();  // key:协议号, value:bean 类
 
     public static boolean existBeanProto(Class beanClass) {
@@ -27,6 +28,13 @@ public class ProtoManager {
             return bean2ProtoMap.get(beanClass).code();
         }
         return -1;
+    }
+
+    public static Class getBeanClassByMessageClass(Class msgClass) {
+        if (message2beanMap.containsKey(msgClass)) {
+            return message2beanMap.get(msgClass);
+        }
+        return null;
     }
 
     public static String info() {
@@ -49,9 +57,63 @@ public class ProtoManager {
             if (null != proto) {
                 code2ProtoMap.put(proto.code(), proto);
                 bean2ProtoMap.put(cls, proto);
+                message2beanMap.put(proto.message(), cls);
                 code2Bean.put(proto.code(), cls);
             }
         }
+    }
+
+    public static List<Object> message2ObjectList(Object o) {
+        try {
+            if (o instanceof List) {
+                List<Object> beanList = new ArrayList<>();
+                Class listCls = List.class;
+                Method sizeMethod = listCls.getMethod("size");
+                Method getMethod = listCls.getMethod("get", int.class);
+                int size = (int) sizeMethod.invoke(o);
+                for (int i=0; i<size; i++) {
+                    Object sub = getMethod.invoke(o, i);
+                    Class beanCls = getBeanClassByMessageClass(sub.getClass());
+                    if (null != beanCls) {
+                        Object bean = message2Bean((Message) sub, beanCls);
+                        beanList.add(bean);
+                    }
+                }
+                return beanList;
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<Message> bean2MessageList(Object bean) {
+        try {
+            if (bean instanceof List) {
+                List<Message> msgList = new ArrayList<>();
+                Class listCls = List.class;
+                Method sizeMethod = listCls.getMethod("size");
+                Method getMethod = listCls.getMethod("get", int.class);
+                int size = (int) sizeMethod.invoke(bean);
+                for (int i=0; i<size; i++) {
+                    Object sub = getMethod.invoke(bean, i);
+                    Message subMsg = bean2Message(sub);
+                    msgList.add(subMsg);
+                }
+                return msgList;
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static Message bean2Message(Object bean) {
@@ -69,7 +131,19 @@ public class ProtoManager {
                     Field field = beanCls.getDeclaredField(d.getName());
                     field.setAccessible(true);
                     Object v = field.get(bean);
-                    builder.setField(d, v);
+                    if (null != v) {
+                        if (d.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) {
+                            if (d.isRepeated()) {
+                                List<Message> ml = bean2MessageList(v);
+                                builder.setField(d, ml);
+                            } else {
+                                Message m = bean2Message(v);
+                                builder.setField(d, m);
+                            }
+                        } else {
+                            builder.setField(d, v);
+                        }
+                    }
                 }
                 return builder.build();
             }
@@ -117,9 +191,20 @@ public class ProtoManager {
             for(Object key : map.keySet()) {
                 Descriptors.FieldDescriptor f = (Descriptors.FieldDescriptor) key;
                 Field fd = cla.getDeclaredField(f.getName());
-                if (null != fd) {
-                    fd.setAccessible(true);
-                    fd.set(bean, map.get(key));
+                fd.setAccessible(true);
+                if (f.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) {
+                    if (f.isRepeated()) {
+                        List l = message2ObjectList(map.get(key));
+                        fd.set(bean, l);
+                    } else {
+                        Class beanCls = getBeanClassByMessageClass(map.get(key).getClass());
+                        Object bo = message2Bean((Message) map.get(key), beanCls);
+                        fd.set(bean, bo);
+                    }
+                } else {
+                    if (null != fd) {
+                        fd.set(bean, map.get(key));
+                    }
                 }
             }
             return bean;

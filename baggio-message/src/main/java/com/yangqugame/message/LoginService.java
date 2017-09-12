@@ -6,6 +6,7 @@ import com.yangqugame.model.VerifyResult;
 import com.yangqugame.msgBean.ReqLogin;
 import com.yangqugame.msgBean.ResLogin;
 import com.yangqugame.msgUtils.MessageSender;
+import com.yangqugame.user.Role;
 import jazmin.driver.http.HttpClientDriver;
 import jazmin.driver.http.HttpResponse;
 import jazmin.log.Logger;
@@ -27,23 +28,21 @@ public class LoginService {
         HttpClientDriver hd = new HttpClientDriver();
         String verifyUrl = BaseConfig.getVerifyServerUrl();
         hd.get(verifyUrl).addQueryParam("accessToken", reqLogin.getAccessToken()).execute((HttpResponse rsp, Throwable e) -> {
-            ResLogin resLogin = new ResLogin();
             try {
                 String body = rsp.getResponseBody();
                 JsonResult result = JSONUtil.fromJson(body, JsonResult.class);
                 if (result.isSuccess()) {
                     VerifyResult verifyResult = JSONUtil.fromJson(result.getData().toString(), VerifyResult.class);
-                    resLogin.setUserId(verifyResult.accountId);
+                    Role.verifyAction(context, verifyResult.accountId);
                     logger.debug(String.format("verify success, account id is %d", verifyResult.accountId));
                 } else {
+                    Role.verifyAction(context, -1);
                     logger.debug(String.format("verify failed"));
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();
                 logger.debug(String.format("verify failed"));
             }
-            logger.debug(String.format("verify result to client : %s", JSONUtil.toJson(resLogin)));
-            MessageSender.send(context, resLogin);
         });
     }
 }

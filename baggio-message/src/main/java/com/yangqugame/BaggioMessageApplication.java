@@ -2,9 +2,8 @@ package com.yangqugame;
 
 import com.yangqugame.annotation.ProtoManager;
 import com.yangqugame.db.DBPoolMgr;
-import com.yangqugame.global.BaseConfig;
-import com.yangqugame.global.ConfigManager;
-import com.yangqugame.global.DbConfig;
+import com.yangqugame.db.dao.data.RoleInfoDao;
+import com.yangqugame.global.*;
 import com.yangqugame.message.BaggioProtobufInvokeService;
 import jazmin.core.Jazmin;
 import jazmin.core.app.Application;
@@ -33,11 +32,16 @@ public class BaggioMessageApplication extends Application {
 
     /** 第二步：初始化数据库链接 **/
     public static boolean initDb() {
-        return DBPoolMgr.init(DbConfig.getAddress(), DbConfig.getPort(), DbConfig.getUser(), DbConfig.getPsw(), DbConfig.getDataDbName(), DbConfig.getConfDbName(), DbConfig.getCharSet());
+        if (DBPoolMgr.init(DbConfig.getAddress(), DbConfig.getPort(), DbConfig.getUser(), DbConfig.getPsw(), DbConfig.getDataDbName(), DbConfig.getConfDbName(), DbConfig.getCharSet())) {
+            TableConfigs.load();
+            ServerRuntime.init();
+            return true;
+        }
+        return false;
     }
 
     /** 第三步：提前处理proto协议，建立映射关系 **/
-    public void initProtoRelation() {
+    public static void initProtoRelation() {
         ProtoManager.scan("com");
     }
 

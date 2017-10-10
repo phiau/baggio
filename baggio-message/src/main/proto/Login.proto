@@ -8,12 +8,8 @@ option java_outer_classname = "Login";
 
 // 登录返回
 message ResLoginMessage{
-	required int32 userId = 1;//返回结果
-}
-
-//返回账号ID
-message ResAccountIdMessage{
-	repeated int32 accountId = 1;//账号ID
+	required int32 roleNum = 1;   // 角色数量
+	repeated RoleInfo roleList = 2;// 角色列表
 }
 
 // 登录校验请求
@@ -21,8 +17,27 @@ message ReqLoginMessage{
 	required string accessToken = 1;  // 客户端从登录服获得的 accessToken
 }
 
-//请求账号ID
-message ReqAccountIdMessage{
-	required int32 param = 1;//参数 无实际意义 传0就可以了
+//角色信息
+message RoleInfo{
+	required int64 roleid = 1;//
+	required int32 accountid = 2;//
+	required string nickname = 3;//
+	required string face = 4;//
+	required int32 exp = 5;//
+	required int32 level = 6;//
+	optional int32 vip = 7;//
+	optional int32 diamond = 8;//
+	optional int32 gold = 9;//
+	optional int32 st = 10;//
+	optional int32 bp = 11;//
+	optional int32 commonfragment = 12;//
+	optional int32 unionid = 13;//
+	optional int32 unionposition = 14;//
+	optional int32 chiefcoach = 15;//
+	optional int32 asscoach = 16;//
+	optional int32 chiefscout = 17;//
+	optional int32 assscout = 18;//
+	optional int32 chiefsponsor = 19;//
+	optional int32 asssponsor = 20;//
 }
 

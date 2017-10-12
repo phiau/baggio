@@ -8,9 +8,13 @@
 
 apply plugin: 'com.github.johnrengelman.shadow'
 
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
 dependencies {
     compile project(':baggio-service')
-    compile 'org.github:jazmin:1.1.3'
+    compile 'org.github:jazmin:local'
 
     testCompile 'junit:junit:4.12'
 }

@@ -20,7 +20,7 @@ buildscript {
                 username nexusUsername
                 password nexusPassword
             }
-            url "https://nexus.coloseo.io/repository/maven-public/"
+            url "http://192.168.1.111:8081/nexus/content/groups/public/"
         }
         jcenter()
         mavenCentral()
@@ -44,7 +44,7 @@ subprojects {
                 username nexusUsername
                 password nexusPassword
             }
-            url "https://nexus.coloseo.io/repository/maven-public/"
+            url "http://192.168.1.111:8081/nexus/content/groups/public/"
         }
         jcenter()
     }

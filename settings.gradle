@@ -20,3 +20,5 @@ rootProject.name = 'baggio'
 include 'baggio-service'
 include 'baggio-message'
 include 'baggio-rpc'
+include 'baggio-start'
+

@@ -6,7 +6,8 @@ package com.yangqugame.global;
 public class BaseConfig {
     private static short serverId = 1;
     private static byte status = 0;
-    private static String dbConfigFile = null;
+    private static String userDataConfigFile = null;
+    private static String systemDataConfigFile = null;
     private static String verifyServerUrl = null;
 
     public static short getServerId() {
@@ -25,12 +26,20 @@ public class BaseConfig {
         BaseConfig.status = status;
     }
 
-    public static String getDbConfigFile() {
-        return dbConfigFile;
+    public static String getUserDataConfigFile() {
+        return userDataConfigFile;
     }
 
-    public static void setDbConfigFile(String dbConfigFile) {
-        BaseConfig.dbConfigFile = dbConfigFile;
+    public static void setUserDataConfigFile(String userDataConfigFile) {
+        BaseConfig.userDataConfigFile = userDataConfigFile;
+    }
+
+    public static String getSystemDataConfigFile() {
+        return systemDataConfigFile;
+    }
+
+    public static void setSystemDataConfigFile(String systemDataConfigFile) {
+        BaseConfig.systemDataConfigFile = systemDataConfigFile;
     }
 
     public static String getVerifyServerUrl() {
@@ -45,7 +54,8 @@ public class BaseConfig {
         return "BaseConfig{" +
                 "serverId=" + serverId +
                 ", status=" + status +
-                ", dbConfigFile='" + dbConfigFile + '\'' +
+                ", userDataConfigFile='" + userDataConfigFile + '\'' +
+                ", systemDataConfigFile='" + systemDataConfigFile + '\'' +
                 ", verifyServerUrl='" + verifyServerUrl + '\'' +
                 '}';
     }

@@ -1,9 +1,8 @@
 package com.yangqugame.global;
 
-import com.yangqugame.db.DBPoolMgr;
-import com.yangqugame.user.Role;
+import com.yangqugame.comm.db.PUBaseDaoThreadPool;
+import com.yangqugame.db.DBManager;
 
-import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -23,22 +22,8 @@ public class ServerRuntime {
     }
 
     private static void initLastRoleId() {
-        try {
-            DBPoolMgr.getDriverData().executeQuery("SELECT MAX(roleId) FROM `roleinfo`;", (meta, set) -> {
-                try {
-                    while (set.next()) {
-                        long id = set.getLong(1);
-                        id = Role.getPartRoleId(id);
-                        ServerRuntime.initLastRoleId(id);
-                        break;
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        long id = PUBaseDaoThreadPool.queryForInteger(DBManager.getUserPool(), "SELECT MAX(roleId) FROM `roleinfo`;");
+        ServerRuntime.initLastRoleId(id);
     }
 
     public static long getNewRoleId() {

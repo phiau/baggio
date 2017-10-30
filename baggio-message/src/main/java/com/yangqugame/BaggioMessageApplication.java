@@ -1,9 +1,10 @@
 package com.yangqugame;
 
 import com.yangqugame.annotation.ProtoManager;
-import com.yangqugame.db.DBPoolMgr;
-import com.yangqugame.db.dao.data.RoleInfoDao;
-import com.yangqugame.global.*;
+import com.yangqugame.comm.util.PropertiesConfigUtil;
+import com.yangqugame.db.DBManager;
+import com.yangqugame.global.BaseConfig;
+import com.yangqugame.global.ServerRuntime;
 import com.yangqugame.message.BaggioProtobufInvokeService;
 import jazmin.core.Jazmin;
 import jazmin.core.app.Application;
@@ -22,22 +23,14 @@ public class BaggioMessageApplication extends Application {
 
     /** 第一步：加载配置 **/
     public static boolean loadConfig() {
-        if (ConfigManager.loadBaseConfig("./instance/message/config/config.properties")) {
-            if (ConfigManager.loadDbConfig(BaseConfig.getDbConfigFile())) {
-                return true;
-            }
-        }
-        return false;
+        PropertiesConfigUtil.file2ClassInstance("./instance/message/config/config.properties", BaseConfig.class);
+        return true;
     }
 
     /** 第二步：初始化数据库链接 **/
     public static boolean initDb() {
-        if (DBPoolMgr.init(DbConfig.getAddress(), DbConfig.getPort(), DbConfig.getUser(), DbConfig.getPsw(), DbConfig.getDataDbName(), DbConfig.getConfDbName(), DbConfig.getCharSet())) {
-            TableConfigs.load();
-            ServerRuntime.init();
-            return true;
-        }
-        return false;
+        DBManager.init(BaseConfig.getUserDataConfigFile(), BaseConfig.getSystemDataConfigFile());
+        return true;
     }
 
     /** 第三步：提前处理proto协议，建立映射关系 **/

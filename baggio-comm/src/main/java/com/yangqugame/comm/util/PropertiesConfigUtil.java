@@ -20,11 +20,17 @@ public class PropertiesConfigUtil {
                 fd.setAccessible(true);
                 String typeName = fd.getType().getName();
                 if (-1 != typeName.indexOf("int")) {
-                    fd.set(bean, Integer.parseInt(prop.getProperty(fd.getName())));
+                    fd.set(bean, Integer.valueOf(prop.getProperty(fd.getName())));
                 } else if (-1 != typeName.indexOf("boolean")) {
                     fd.set(bean, Boolean.valueOf(prop.getProperty(fd.getName())));
+                } else if (-1 != typeName.indexOf("short")){
+                    fd.set(bean, Short.valueOf(prop.getProperty(fd.getName())));
+                } else if (-1 != typeName.indexOf("byte")){
+                    fd.set(bean, Byte.valueOf(prop.getProperty(fd.getName())));
+                } else if (-1 != typeName.indexOf("long")){
+                    fd.set(bean, Long.valueOf(prop.getProperty(fd.getName())));
                 } else {
-                    fd.set(bean, prop.get(fd.getName()));
+                    fd.set(bean, prop.getProperty(fd.getName()));
                 }
             }
         }

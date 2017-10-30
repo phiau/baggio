@@ -22,9 +22,11 @@ tasks.withType(JavaCompile) {
 dependencies {
     compile project(':baggio-service')
     compile 'org.github:jazmin:local'
+    compile 'com.zaxxer:HikariCP:2.7.2'
     compile "com.google.protobuf:protobuf-java:${protobufVersion}"
     compile 'org.reflections:reflections:0.9.11'
     compile 'com.typesafe.akka:akka-actor_2.12:2.5.3'
+    compile 'com.coloseo.baggio:comm:0.1'
     testCompile 'junit:junit:4.12'
 }
 

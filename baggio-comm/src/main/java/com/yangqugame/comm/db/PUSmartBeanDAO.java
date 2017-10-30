@@ -23,28 +23,24 @@ import java.util.*;
  *
  */
 public class PUSmartBeanDAO<T> {
-    public final static short DB_TYPE_DATA = 1;
-    public final static short DB_TYPE_CONFIG = 2;
-    public final static short DB_TYPE_OTHER = 2;
-
 	private String tableNamePrefix="t";
 	private String tableName;
-	private short dbType = 1;
+
+	private PUDatebasePool datebasePool = null;
 	private Connection conn = null;
 
     private PUSmartBeanDAO() {
     }
 
-    public PUSmartBeanDAO(String tableNamePrefix, String tableName, short dbType) {
+    public PUSmartBeanDAO(String tableNamePrefix, String tableName, PUDatebasePool datebasePool) {
         this.tableNamePrefix = tableNamePrefix;
         this.tableName = tableName;
-        this.dbType = dbType;
+        this.datebasePool = datebasePool;
     }
 
-    public PUSmartBeanDAO(String tableNamePrefix, String tableName, short dbType, Connection conn) {
+    public PUSmartBeanDAO(String tableNamePrefix, String tableName, Connection conn) {
         this.tableNamePrefix = tableNamePrefix;
         this.tableName = tableName;
-        this.dbType = dbType;
         this.conn = conn;
     }
 
@@ -165,14 +161,11 @@ public class PUSmartBeanDAO<T> {
 		for(Object o:qt.whereValues()){
 			fieldList.add(o);
 		}
-		if (DB_TYPE_DATA == dbType) {
-            return PUBaseDaoThreadPool.executeUpdate(PUGlobalPool.getDataThreadPool(), PUGlobalPool.getDbPool(), sql.toString(), fieldList.toArray(new Object[fieldList.size()]));
-        } else if (DB_TYPE_CONFIG == dbType) {
-            return PUBaseDaoThreadPool.executeUpdate(PUGlobalPool.getConfigThreadPool(), PUGlobalPool.getConfigPool(), sql.toString(), fieldList.toArray(new Object[fieldList.size()]))	;
-        }else {
-	        return PUBaseDaoLocalThread.executeUpdate(conn, sql.toString(), fieldList.toArray(new Object[fieldList.size()]))	;
+		if (null == this.conn) {
+            return PUBaseDaoThreadPool.executeUpdate(this.datebasePool, sql.toString(), fieldList.toArray(new Object[fieldList.size()]))	;
         }
-	}
+        return PUBaseDaoLocalThread.executeUpdate(conn, sql.toString(), fieldList.toArray(new Object[fieldList.size()]));
+    }
 	//
 	protected int delete(PUQueryTerms qt){
 		StringBuilder sql=new StringBuilder();
@@ -180,13 +173,10 @@ public class PUSmartBeanDAO<T> {
 		sql.append("delete from ").append(tableName);
 		sql.append(" where 1=1");
 		sql.append(qt.whereStatement());
-		if (DB_TYPE_DATA == dbType) {
-            return PUBaseDaoThreadPool.executeUpdate(PUGlobalPool.getDataThreadPool(), PUGlobalPool.getDbPool(), sql.toString(),qt.whereValues());
-        } else if (DB_TYPE_CONFIG == dbType) {
-            return PUBaseDaoThreadPool.executeUpdate(PUGlobalPool.getConfigThreadPool(), PUGlobalPool.getConfigPool(), sql.toString(),qt.whereValues());
-        } else {
-		    return PUBaseDaoLocalThread.executeUpdate(conn, sql.toString(), qt.whereValues());
+        if (null == this.conn) {
+            return PUBaseDaoThreadPool.executeUpdate(this.datebasePool, sql.toString(),qt.whereValues());
         }
+        return PUBaseDaoLocalThread.executeUpdate(conn, sql.toString(), qt.whereValues());
 	}
 	//
 	private String querySql(PUQueryTerms qt, String... excludeProperties){
@@ -257,14 +247,11 @@ public class PUSmartBeanDAO<T> {
 	}
 	
 	protected int queryCount(PUQueryTerms qt){
-        if (DB_TYPE_DATA == dbType) {
-            return PUBaseDaoThreadPool.queryForInteger(PUGlobalPool.getDataThreadPool(), PUGlobalPool.getDbPool(), queryCountSql(qt), qt.whereValues());
-        } else if (DB_TYPE_CONFIG == dbType) {
-            return PUBaseDaoThreadPool.queryForInteger(PUGlobalPool.getConfigThreadPool(), PUGlobalPool.getConfigPool(), queryCountSql(qt), qt.whereValues());
-        } else {
-            return PUBaseDaoLocalThread.queryForInteger(conn, queryCountSql(qt), qt.whereValues());
+        if (null == this.conn) {
+            return PUBaseDaoThreadPool.queryForInteger(this.datebasePool, queryCountSql(qt), qt.whereValues());
         }
-	}
+        return PUBaseDaoLocalThread.queryForInteger(conn, queryCountSql(qt), qt.whereValues());
+    }
 	//
 	protected T query(PUQueryTerms qt, String... excludeProperties){
 		Class<?>type=getTypeClass();
@@ -278,14 +265,11 @@ public class PUSmartBeanDAO<T> {
                 return o;
             }
         };
-        if (DB_TYPE_DATA == dbType) {
-            return PUBaseDaoThreadPool.queryForObject(PUGlobalPool.getDataThreadPool(), PUGlobalPool.getDbPool(), sql, resultSetHandler, qt.whereValues());
-        } else if (DB_TYPE_CONFIG == dbType) {
-            return PUBaseDaoThreadPool.queryForObject(PUGlobalPool.getConfigThreadPool(), PUGlobalPool.getConfigPool(), sql, resultSetHandler, qt.whereValues());
-        } else {
-            return PUBaseDaoLocalThread.queryForObject(conn, sql, resultSetHandler, qt.whereValues());
+        if (null == this.conn) {
+            return PUBaseDaoThreadPool.queryForObject(this.datebasePool, sql, resultSetHandler, qt.whereValues());
         }
-	}
+        return PUBaseDaoLocalThread.queryForObject(conn, sql, resultSetHandler, qt.whereValues());
+    }
 	//
 	protected List<T>queryList(PUQueryTerms qt, String... excludeProperties){
 		Class<?>type=getTypeClass();
@@ -299,14 +283,11 @@ public class PUSmartBeanDAO<T> {
                 return o;
             }
         };
-        if (DB_TYPE_DATA == dbType) {
-            return PUBaseDaoThreadPool.queryForList(PUGlobalPool.getDataThreadPool(), PUGlobalPool.getDbPool(), sql, resultSetHandler, -1, qt.whereValues());
-        } else if (DB_TYPE_CONFIG == dbType) {
-            return PUBaseDaoThreadPool.queryForList(PUGlobalPool.getConfigThreadPool(), PUGlobalPool.getConfigPool(), sql, resultSetHandler, -1, qt.whereValues());
-        } else {
-            return PUBaseDaoLocalThread.queryForList(conn, sql, resultSetHandler, -1, qt.whereValues());
+        if (null == this.conn) {
+            return PUBaseDaoThreadPool.queryForList(this.datebasePool, sql, resultSetHandler, -1, qt.whereValues());
         }
-	}
+        return PUBaseDaoLocalThread.queryForList(conn, sql, resultSetHandler, -1, qt.whereValues());
+    }
 	//
 	protected int insert(T o,boolean withGenerateKey,String... excludeProperties){
 		StringBuilder sql=new StringBuilder();
@@ -347,18 +328,11 @@ public class PUSmartBeanDAO<T> {
 		}
 		sql.deleteCharAt(sql.length()-1);
 		sql.append(")");
-		if (DB_TYPE_DATA == dbType) {
+		if (null == this.conn) {
             if(withGenerateKey){
-                return PUBaseDaoThreadPool.executeWithGenKey(PUGlobalPool.getDataThreadPool(), PUGlobalPool.getDbPool(), sql.toString(), fieldList.toArray(new Object[fieldList.size()]));
+                return PUBaseDaoThreadPool.executeWithGenKey(this.datebasePool, sql.toString(), fieldList.toArray(new Object[fieldList.size()]));
             }else{
-                PUBaseDaoThreadPool.execute(PUGlobalPool.getDataThreadPool(), PUGlobalPool.getDbPool(), sql.toString(), fieldList.toArray(new Object[fieldList.size()]));
-                return 0;
-            }
-        } else if(DB_TYPE_CONFIG == dbType) {
-            if(withGenerateKey){
-                return PUBaseDaoThreadPool.executeWithGenKey(PUGlobalPool.getConfigThreadPool(), PUGlobalPool.getConfigPool(), sql.toString(), fieldList.toArray(new Object[fieldList.size()]));
-            }else{
-                PUBaseDaoThreadPool.execute(PUGlobalPool.getConfigThreadPool(), PUGlobalPool.getConfigPool(), sql.toString(), fieldList.toArray(new Object[fieldList.size()]));
+                PUBaseDaoThreadPool.execute(this.datebasePool, sql.toString(), fieldList.toArray(new Object[fieldList.size()]));
                 return 0;
             }
         }else {

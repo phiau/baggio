@@ -4,35 +4,35 @@ package com.yangqugame.comm.config;
  * Created by phiau on 2017/10/27 0027.
  */
 public class CacheConfig {
-    private static String host;
-    private static String psw;
-    private static int port;
+    private String host;
+    private String psw;
+    private int port;
 
-    public static String getHost() {
+    public String getHost() {
         return host;
     }
 
-    public static void setHost(String host) {
-        CacheConfig.host = host;
+    public void setHost(String host) {
+        this.host = host;
     }
 
-    public static String getPsw() {
+    public String getPsw() {
         return psw;
     }
 
-    public static void setPsw(String psw) {
-        CacheConfig.psw = psw;
+    public void setPsw(String psw) {
+        this.psw = psw;
     }
 
-    public static int getPort() {
+    public int getPort() {
         return port;
     }
 
-    public static void setPort(int port) {
-        CacheConfig.port = port;
+    public void setPort(int port) {
+        this.port = port;
     }
 
-    public static String info() {
+    public String info() {
         return "CacheConfig{" +
                 "host='" + host + '\'' +
                 ", port='" + port + '\'' +

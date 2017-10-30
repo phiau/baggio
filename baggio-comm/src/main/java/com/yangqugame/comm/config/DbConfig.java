@@ -5,86 +5,76 @@ package com.yangqugame.comm.config;
  * Created by phiau on 2017/10/27 0027.
  */
 public class DbConfig {
-    private static String host;
-    private static String port;
-    private static String user;
-    private static String psw;
-    private static String dataDbName;
-    private static String confDbName;
-    private static String charSet;
-    private static int maxConn = 10;
+    private String host;
+    private String port;
+    private String user;
+    private String psw;
+    private String datebase;
+    private String charSet;
+    private int maxConn = 10;
 
-    public static String getHost() {
+    public String getHost() {
         return host;
     }
 
-    public static void setHost(String host) {
-        DbConfig.host = host;
+    public void setHost(String host) {
+        this.host = host;
     }
 
-    public static String getPort() {
+    public String getPort() {
         return port;
     }
 
-    public static void setPort(String port) {
-        DbConfig.port = port;
+    public void setPort(String port) {
+        this.port = port;
     }
 
-    public static String getUser() {
+    public String getUser() {
         return user;
     }
 
-    public static void setUser(String user) {
-        DbConfig.user = user;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public static String getPsw() {
+    public String getPsw() {
         return psw;
     }
 
-    public static void setPsw(String psw) {
-        DbConfig.psw = psw;
+    public void setPsw(String psw) {
+        this.psw = psw;
     }
 
-    public static String getDataDbName() {
-        return dataDbName;
+    public String getDatebase() {
+        return datebase;
     }
 
-    public static void setDataDbName(String dataDbName) {
-        DbConfig.dataDbName = dataDbName;
+    public void setDatebase(String datebase) {
+        this.datebase = datebase;
     }
 
-    public static String getConfDbName() {
-        return confDbName;
-    }
-
-    public static void setConfDbName(String confDbName) {
-        DbConfig.confDbName = confDbName;
-    }
-
-    public static String getCharSet() {
+    public String getCharSet() {
         return charSet;
     }
 
-    public static void setCharSet(String charSet) {
-        DbConfig.charSet = charSet;
+    public void setCharSet(String charSet) {
+        this.charSet = charSet;
     }
 
-    public static int getMaxConn() {
+    public int getMaxConn() {
         return maxConn;
     }
 
-    public static void setMaxConn(int maxConn) {
-        DbConfig.maxConn = maxConn;
+    public void setMaxConn(int maxConn) {
+        this.maxConn = maxConn;
     }
 
-    public static String info() {
-        return "DbConfig{" +
+    public String info() {
+        return "this{" +
                 "host='" + host + '\'' +
                 ", port='" + port + '\'' +
                 ", user='" + user + '\'' +
-                ", dataDbName='" + dataDbName + '\'' +
-                ", confDbName='" + confDbName + '\'' +
+                ", datebase='" + datebase + '\'' +
                 ", charSet='" + charSet + '\'' +
                 ", maxConn='" + maxConn + '\'' +
                 '}';

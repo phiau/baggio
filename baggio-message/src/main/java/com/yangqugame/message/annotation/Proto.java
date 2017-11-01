@@ -1,6 +1,6 @@
-package com.yangqugame.annotation;
+package com.yangqugame.message.annotation;
 
-import com.yangqugame.message.DefaultService;
+import com.yangqugame.message.service.DefaultService;
 
 import java.lang.annotation.*;
 

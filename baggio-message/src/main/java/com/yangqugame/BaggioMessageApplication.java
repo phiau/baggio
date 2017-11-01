@@ -1,10 +1,9 @@
 package com.yangqugame;
 
-import com.yangqugame.annotation.ProtoManager;
+import com.yangqugame.message.annotation.ProtoManager;
 import com.yangqugame.comm.util.PropertiesConfigUtil;
 import com.yangqugame.db.DBManager;
 import com.yangqugame.global.BaseConfig;
-import com.yangqugame.global.ServerRuntime;
 import com.yangqugame.message.BaggioProtobufInvokeService;
 import jazmin.core.Jazmin;
 import jazmin.core.app.Application;

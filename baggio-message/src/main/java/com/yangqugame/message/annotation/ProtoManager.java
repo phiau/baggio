@@ -1,4 +1,4 @@
-package com.yangqugame.annotation;
+package com.yangqugame.message.annotation;
 
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;

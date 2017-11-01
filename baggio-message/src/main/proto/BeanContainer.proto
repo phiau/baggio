@@ -1,0 +1,68 @@
+package x1.proto.pb;
+
+option java_package = "x1.proto.pb";
+
+option java_outer_classname = "BeanContainer";
+
+//玩家球员数据
+message FootballerData{
+	required int64 ownerId = 1;//所属玩家id，同t_baseInfo的userId
+	required int32 roleType = 2;//角色ID，同footballerData的roleType
+	required int32 awakenState = 3;//球员觉醒状态，0~2依次表示原始状态、一觉、二觉
+	required int32 level = 4;//球员当前等级
+	required int32 exp = 5;//球员当前等级的经验
+	required int32 star = 6;//球员当前星级
+	required int32 quality = 7;//球员当前品阶
+	required double power = 8;//球员当前力量总值
+	required double technic = 9;//球员当前技巧总值
+	required double vitality = 10;//球员当前体能总值
+	required double speed = 11;//球员当前速度总值
+	required int32 active = 12;//球员在球队中状态，0-未激活（还是为碎片形式），1为已激活球员
+	required int32 fragment = 13;//拥有当前球员的碎片数量
+	required int32 mainSkillLev = 14;//队长技能当前等级
+	required int32 skillLev1_8 = 15;//技能1~8总8个字段，依次记录当前等级，-1为未解锁，0为已解锁未加点
+	required int32 combat = 16;//球员当前战斗力
+}
+
+//角色信息
+message UserInfo{
+	required int64 roleid = 1;//角色id
+	required int32 accountid = 2;//账号id
+	required string nickname = 3;//角色名
+	required string face = 4;//角色头像
+	required int32 exp = 5;//经验
+	required int32 level = 6;//角色等级
+	required int32 vip = 7;//vip等级
+	required int32 diamond = 8;//钻石
+	required int32 gold = 9;//金币
+	required int32 st = 10;//
+	required int32 bp = 11;//
+	required int32 commonfragment = 12;//
+	required int32 unionid = 13;//
+	required int32 unionposition = 14;//
+	required int32 chiefcoach = 15;//
+	required int32 asscoach = 16;//
+	required int32 chiefscout = 17;//
+	required int32 assscout = 18;//
+	required int32 chiefsponsor = 19;//
+	required int32 asssponsor = 20;//
+}
+
+//阵容
+message TLineup{
+	required int64 ownerid = 1;//所属玩家id，同t_baseInfo的userId
+	required int32 lineupId = 2;//1~5，分别对应玩家第一~第五套阵容数据
+	required int32 ace = 3;//记录队长的当前位置，为1~11其中一个，不能为空
+	required int32 position1 = 4;//角色ID，同footballerData的roleType
+	required int32 position2 = 5;//
+	required int32 position3 = 6;//
+	required int32 position4 = 7;//
+	required int32 position5 = 8;//
+	required int32 position6 = 9;//
+	required int32 position7 = 10;//
+	required int32 position8 = 11;//
+	required int32 position9 = 12;//
+	required int32 position10 = 13;//
+	required int32 position11 = 14;//
+}
+

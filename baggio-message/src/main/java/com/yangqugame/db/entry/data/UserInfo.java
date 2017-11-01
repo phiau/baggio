@@ -1,12 +1,12 @@
 package com.yangqugame.db.entry.data;
 
-import com.yangqugame.annotation.Proto;
-import x1.proto.pb.Login;
+import com.yangqugame.message.annotation.Proto;
+import x1.proto.pb.BeanContainer;
 
-@Proto(message = Login.RoleInfo.class)
-public class RoleInfo {
+@Proto(message = BeanContainer.UserInfo.class)
+public class UserInfo {
 
-  public long roleid;
+  public long userid;
   public int accountid;
   public String nickname;
   public String face;
@@ -28,12 +28,12 @@ public class RoleInfo {
   public int asssponsor;
 
 
-  public long getRoleid() {
-    return roleid;
+  public long getUserid() {
+    return userid;
   }
 
-  public void setRoleid(long roleid) {
-    this.roleid = roleid;
+  public void setUserid(long userid) {
+    this.userid = userid;
   }
 
 

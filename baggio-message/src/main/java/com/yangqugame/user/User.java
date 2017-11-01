@@ -1,15 +1,15 @@
 package com.yangqugame.user;
 
-import com.yangqugame.db.dao.data.RoleInfoDao;
+import com.yangqugame.db.dao.data.UserInfoDao;
 import com.yangqugame.db.entry.config.Randname1;
 import com.yangqugame.db.entry.config.Randname2;
-import com.yangqugame.db.entry.data.RoleInfo;
+import com.yangqugame.db.entry.data.UserInfo;
 import com.yangqugame.global.BaseConfig;
 import com.yangqugame.global.ServerRuntime;
 import com.yangqugame.global.TableConfigs;
 import com.yangqugame.message.SessionManager;
-import com.yangqugame.msgBean.ResLogin;
-import com.yangqugame.msgUtils.MessageSender;
+import com.yangqugame.message.bean.ResLogin;
+import com.yangqugame.message.MessageSender;
 import com.yangqugame.utils.NumberUtils;
 import jazmin.server.protobuf.Context;
 
@@ -19,20 +19,16 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/9/6 0006.
  */
-public class Role {
+public class User {
 
-    public static long getPartRoleId(long id) {
-        return id % (int)(Math.pow(10, 6));
-    }
-
-    public static long genRoleId() {
-        String tmp = String.format("%d%02d%06d", BaseConfig.getServerId(), 0, ServerRuntime.getNewRoleId());
+    public static long genUserId() {
+        String tmp = String.format("%d%02d%06d", BaseConfig.getServerId(), 0, ServerRuntime.getNewUserId());
         return Long.parseLong(tmp);
     }
 
-    private static RoleInfo initRoleInfo(int accountId, long roleId, String nickName) {
-        RoleInfo info = new RoleInfo();
-        info.setRoleid(roleId);
+    private static UserInfo initUserInfo(int accountId, long userId, String nickName) {
+        UserInfo info = new UserInfo();
+        info.setUserid(userId);
         info.setAccountid(accountId);
         info.setNickname(nickName);
         info.setFace("");
@@ -43,26 +39,26 @@ public class Role {
     }
 
     // 初始化角色
-    public static RoleInfo createRole(Context context, String nickName) {
+    public static UserInfo createUser(Context context, String nickName) {
         int accountId = SessionManager.getAccountBySession(context.getSession());
         if (0 < accountId) {
-            if (RoleManager.existAccountAnyRole(accountId)) {
+            if (UserManager.existAccountAnyUser(accountId)) {
                 // 已经有角色了
                 return null;
             }
-            RoleInfo roleInfo = initRoleInfo(accountId, genRoleId(), nickName);
-            boolean success = new RoleInfoDao().insert(roleInfo);
+            UserInfo userInfo = initUserInfo(accountId, genUserId(), nickName);
+            boolean success = new UserInfoDao().insert(userInfo);
             if (success) {
                 // 绑定角色，然后通知客户端
-                addAccountRoleInfo(accountId, roleInfo);
-                RoleManager.accountBindRole(accountId, roleInfo);
+                addAccountUserInfo(accountId, userInfo);
+                UserManager.accountBindUser(accountId, userInfo);
 
                 ResLogin resLogin = new ResLogin();
-                resLogin.setRoleNum(1);
-                resLogin.setRoleList(new ArrayList<>());
-                resLogin.getRoleList().add(roleInfo);
-                MessageSender.send(accountId, resLogin);
-                return roleInfo;
+                resLogin.setUserNum(1);
+                resLogin.setUserList(new ArrayList<>());
+                resLogin.getUserList().add(userInfo);
+                MessageSender.sendByAccountId(accountId, resLogin);
+                return userInfo;
             }
         } else {
             // 需要先登录成功
@@ -70,8 +66,8 @@ public class Role {
         return null;
     }
 
-    private static void addAccountRoleInfo(int accountId, RoleInfo info) {
-        RoleManager.addAccountRoleId(accountId, info.getRoleid());
+    private static void addAccountUserInfo(int accountId, UserInfo info) {
+        UserManager.addAccountUserId(accountId, info.getUserid());
     }
 
     private static String genRandName() {
@@ -85,26 +81,26 @@ public class Role {
     public static void readyLogin(Context context, int accountId) {
         ResLogin resLogin = new ResLogin();
         if (0 < accountId) {
-            List<RoleInfo> roleInfos = new RoleInfoDao().queryList(accountId);
-            if (null == roleInfos || 0 == roleInfos.size()) {
+            List<UserInfo> userInfos = new UserInfoDao().queryList(accountId);
+            if (null == userInfos || 0 == userInfos.size()) {
                 // 服务器自动创建一个角色
-                createRole(context, genRandName());
+                createUser(context, genRandName());
                 return;
             } else {
-                resLogin.setRoleNum(roleInfos.size());
-                resLogin.setRoleList(roleInfos);
+                resLogin.setUserNum(userInfos.size());
+                resLogin.setUserList(userInfos);
 
                 // 只有一个角色，直接绑定 account id 为该角色
-                if (1 == roleInfos.size()) {
-                    RoleManager.accountBindRole(accountId, roleInfos.get(0));
+                if (1 == userInfos.size()) {
+                    UserManager.accountBindUser(accountId, userInfos.get(0));
                 }
-                for (RoleInfo info : roleInfos) {
-                    addAccountRoleInfo(accountId, info);
+                for (UserInfo info : userInfos) {
+                    addAccountUserInfo(accountId, info);
                 }
             }
-            MessageSender.send(accountId, resLogin);
+            MessageSender.sendByAccountId(accountId, resLogin);
         } else {
-            resLogin.setRoleNum(-1);
+            resLogin.setUserNum(-1);
             MessageSender.send(context, resLogin);
         }
     }
@@ -114,5 +110,9 @@ public class Role {
             SessionManager.bindAccountSession(context, accountId);
         }
         readyLogin(context, accountId);
+    }
+
+    public static void createFirstRole(Context context, int roleId) {
+        // 判断玩家是不是还没有球员
     }
 }

@@ -1,4 +1,4 @@
-package com.yangqugame.message;
+package com.yangqugame.message.service;
 
 import jazmin.log.Logger;
 import jazmin.log.LoggerFactory;

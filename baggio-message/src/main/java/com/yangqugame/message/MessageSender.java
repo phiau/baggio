@@ -1,8 +1,8 @@
-package com.yangqugame.msgUtils;
+package com.yangqugame.message;
 
 import com.google.protobuf.Message;
-import com.yangqugame.annotation.ProtoManager;
-import com.yangqugame.message.SessionManager;
+import com.yangqugame.message.annotation.ProtoManager;
+import com.yangqugame.user.UserManager;
 import jazmin.log.Logger;
 import jazmin.log.LoggerFactory;
 import jazmin.server.protobuf.Context;
@@ -25,7 +25,14 @@ public class MessageSender {
         }
     }
 
-    public static void send(int accountId, Object o) {
+    public static void sendByUserId(Long userId, Object o) {
+        int accountId = UserManager.getAccountIdByUserId(userId);
+        if (0 < accountId) {
+            sendByAccountId(accountId, o);
+        }
+    }
+
+    public static void sendByAccountId(int accountId, Object o) {
         ProtobufMessage protobufMessage = bean2ProtobufMessage(o);
         if (null != protobufMessage) {
             SessionManager.sendMessage(accountId, protobufMessage);

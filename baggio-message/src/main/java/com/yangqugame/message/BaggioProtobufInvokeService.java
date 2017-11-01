@@ -1,6 +1,6 @@
 package com.yangqugame.message;
 
-import com.yangqugame.annotation.ProtoManager;
+import com.yangqugame.message.annotation.ProtoManager;
 import com.yangqugame.utils.StringUtils;
 import jazmin.log.Logger;
 import jazmin.log.LoggerFactory;

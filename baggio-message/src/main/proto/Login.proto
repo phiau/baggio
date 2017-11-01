@@ -2,42 +2,31 @@
 
 package x1.proto.pb;
 
+import "BeanContainer.proto";
+
 option java_package = "x1.proto.pb";
 
 option java_outer_classname = "Login";
 
-// 登录返回
+//登录返回
 message ResLoginMessage{
-	required int32 roleNum = 1;   // 角色数量
-	repeated RoleInfo roleList = 2;// 角色列表
+	required int32 userNum = 1;//user数量
+	repeated UserInfo userList = 2;//user列表
 }
 
-// 登录校验请求
+//创建角色返回
+message ResCreateRoleMessage{
+	required bool isSuccess = 1;//是否成功
+	required FootballerData newRole = 2;//新角色数据
+}
+
+//登录校验请求
 message ReqLoginMessage{
-	required string accessToken = 1;  // 客户端从登录服获得的 accessToken
+	required string accessToken = 1;//客户端从登录服获得的 accessToken
 }
 
-//角色信息
-message RoleInfo{
-	required int64 roleid = 1;//
-	required int32 accountid = 2;//
-	required string nickname = 3;//
-	required string face = 4;//
-	required int32 exp = 5;//
-	required int32 level = 6;//
-	optional int32 vip = 7;//
-	optional int32 diamond = 8;//
-	optional int32 gold = 9;//
-	optional int32 st = 10;//
-	optional int32 bp = 11;//
-	optional int32 commonfragment = 12;//
-	optional int32 unionid = 13;//
-	optional int32 unionposition = 14;//
-	optional int32 chiefcoach = 15;//
-	optional int32 asscoach = 16;//
-	optional int32 chiefscout = 17;//
-	optional int32 assscout = 18;//
-	optional int32 chiefsponsor = 19;//
-	optional int32 asssponsor = 20;//
+//创建角色
+message ReqCreateRoleMessage{
+	required int32 roleType = 1;//角色id，见 systemConfig 的 createRole 配置
 }
 

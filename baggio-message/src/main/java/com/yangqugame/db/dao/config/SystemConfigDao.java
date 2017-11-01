@@ -16,17 +16,7 @@ public class SystemConfigDao extends PUSmartBeanDAO<SystemConfig> {
         super("", "systemconfig", DBManager.getSystemPool());
     }
 
-    @Override
-    protected List<SystemConfig> queryList(PUQueryTerms qt, String... excludeProperties) {
-        return super.queryList(qt, excludeProperties);
-    }
-
     public List<SystemConfig> queryList() {
         return queryList(new PUQueryTerms());
-    }
-
-    @Override
-    protected int insert(SystemConfig o, boolean withGenerateKey, String... excludeProperties) {
-        return super.insert(o, withGenerateKey, excludeProperties);
     }
 }

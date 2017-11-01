@@ -1,0 +1,23 @@
+//玩家基础信息
+
+package x1.proto.pb;
+
+import "BeanContainer.proto";
+
+option java_package = "x1.proto.pb";
+
+option java_outer_classname = "BaseInfo";
+
+//玩家球员数据
+message PlayerInfoMessage{
+	required int32 num = 1;//球员数量
+	repeated FootballerData players = 2;//阵容列表
+}
+
+//玩家阵容数据
+message LineupInfoMessage{
+	required int32 num = 1;//阵容数量
+	required int32 defaultId = 2;//默认阵容的id
+	repeated TLineup lineups = 3;//阵容列表
+}
+

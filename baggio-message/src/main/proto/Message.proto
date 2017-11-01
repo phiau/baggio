@@ -1,0 +1,13 @@
+//消息提示
+
+package x1.proto.pb;
+
+option java_package = "x1.proto.pb";
+
+option java_outer_classname = "Message";
+
+//tip消息
+message TipMessage{
+	required string tip = 1;//消息内容
+}
+

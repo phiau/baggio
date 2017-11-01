@@ -15,22 +15,22 @@ public class ServerRuntime {
     private static byte status = 0;
 
     // 最后一个角色 id
-    private static AtomicLong lastRoleId;
+    private static AtomicLong lastUserId;
 
-    public static void initLastRoleId(long lastId) {
-        lastRoleId = new AtomicLong(lastId);
+    public static void initLastUserId(long lastId) {
+        lastUserId = new AtomicLong(lastId);
     }
 
-    private static void initLastRoleId() {
-        long id = PUBaseDaoThreadPool.queryForInteger(DBManager.getUserPool(), "SELECT MAX(roleId) FROM `roleinfo`;");
-        ServerRuntime.initLastRoleId(id);
+    private static void initLastUserId() {
+        long id = PUBaseDaoThreadPool.queryForInteger(DBManager.getUserPool(), "SELECT MAX(roleId) FROM `userinfo`;");
+        ServerRuntime.initLastUserId(id);
     }
 
-    public static long getNewRoleId() {
-        if (null == lastRoleId) {
-            initLastRoleId(0);
+    public static long getNewUserId() {
+        if (null == lastUserId) {
+            initLastUserId(0);
         }
-        return lastRoleId.getAndIncrement();
+        return lastUserId.getAndIncrement();
     }
 
     public static byte getStatus() {
@@ -38,6 +38,6 @@ public class ServerRuntime {
     }
 
     public static void init() {
-        initLastRoleId();
+        initLastUserId();
     }
 }

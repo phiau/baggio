@@ -8,17 +8,6 @@ import jazmin.server.protobuf.ProtobufServer;
  */
 public class StartMessage {
 
-    public static void main1(String [] argv) {
-        Thread shutdownThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("=============== shutdown ==============");
-            }
-        });
-
-        Runtime.getRuntime().addShutdownHook(shutdownThread);
-    }
-
     public static void main(String[] args) {
         Thread shutdownThread=new Thread(Jazmin::stop);
         shutdownThread.setName("ShutdownHook");
@@ -27,9 +16,5 @@ public class StartMessage {
         Jazmin.addServer(new ProtobufServer());
         Jazmin.loadApplication(new BaggioMessageApplication());
         Jazmin.start();
-
-
-//        int n = Integer.valueOf("100");
-//        System.out.println(n);
     }
 }

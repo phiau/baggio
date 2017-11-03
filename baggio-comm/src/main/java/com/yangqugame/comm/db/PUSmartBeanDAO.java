@@ -398,7 +398,7 @@ public class PUSmartBeanDAO<T> {
 			} else if (fieldType.equals(Float.class)
 					|| fieldType.equals(float.class)) {
 				value = rs.getFloat(fieldName);
-			} else if (fieldType.equals(Date.class)) {
+			} else if (fieldType.equals(Date.class) || fieldType.equals(Timestamp.class)) {
 				value = rs.getTimestamp(fieldName);
 			} else if (fieldType.equals(Boolean.class)
 					|| fieldType.equals(boolean.class)) {

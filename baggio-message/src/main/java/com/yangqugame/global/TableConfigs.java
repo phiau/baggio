@@ -1,13 +1,7 @@
 package com.yangqugame.global;
 
-import com.yangqugame.db.dao.config.Randname1Dao;
-import com.yangqugame.db.dao.config.Randname2Dao;
-import com.yangqugame.db.dao.config.RoleInfoDao;
-import com.yangqugame.db.dao.config.SystemConfigDao;
-import com.yangqugame.db.entry.config.Randname1;
-import com.yangqugame.db.entry.config.Randname2;
-import com.yangqugame.db.entry.config.RoleInfo;
-import com.yangqugame.db.entry.config.SystemConfig;
+import com.yangqugame.db.dao.config.*;
+import com.yangqugame.db.entry.config.*;
 
 import java.util.*;
 
@@ -22,11 +16,13 @@ public class TableConfigs {
     private static List<Randname2> randname2s = new ArrayList<>();
     private static List<SystemConfig> systemConfigs = new ArrayList<>();
     private static List<RoleInfo> roleInfos = new ArrayList<>();
+    private static List<Item> items = new ArrayList<>();
 
     // ----------------------------------------------------------
     private static Set<Integer> createRoleConf = new HashSet<>();
     private static Map<String, String> systemConfigMap = new HashMap<>();
     private static Map<Integer, RoleInfo> roleInfoMap = new HashMap<>();
+    private static Map<Integer, Item> itemMap = new HashMap<>();
 
     public static void load() {
         if (!isLoadFinish) {
@@ -40,6 +36,7 @@ public class TableConfigs {
         randname2s = new Randname2Dao().queryList();
         systemConfigs = new SystemConfigDao().queryList();
         roleInfos = new RoleInfoDao().queryList();
+        items = new ItemDao().queryList();
         isLoadFinish = true;
         loaded();
     }
@@ -51,7 +48,6 @@ public class TableConfigs {
         for (SystemConfig config : systemConfigs) {
             systemConfigMap.put(config.getKey(), config.getValues());
         }
-        createRoleConf.clear();
         if (systemConfigMap.containsKey("createRole")) {
             String[] crs = systemConfigMap.get("createRole").split("\\|");
             if (null != crs || 0 < crs.length) {
@@ -67,6 +63,10 @@ public class TableConfigs {
         for (RoleInfo info : roleInfos) {
             roleInfoMap.put(info.getRoletype(), info);
         }
+        // 物品配置
+        for (Item it : items) {
+            itemMap.put(it.getId(), it);
+        }
     }
 
     // ======================   ======================
@@ -76,6 +76,14 @@ public class TableConfigs {
 
     public static boolean existRoleType(int roleType) {
         return roleInfoMap.containsKey(roleType);
+    }
+
+    public static boolean existItem(int id) {
+        return itemMap.containsKey(id);
+    }
+
+    public static Item getItem(int id) {
+        return itemMap.get(id);
     }
 
     // ====================== get & set ======================

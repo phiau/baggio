@@ -1,10 +1,13 @@
 package com.yangqugame;
 
-import com.yangqugame.message.annotation.ProtoManager;
 import com.yangqugame.comm.util.PropertiesConfigUtil;
 import com.yangqugame.db.DBManager;
 import com.yangqugame.global.BaseConfig;
+import com.yangqugame.global.ServerRuntime;
+import com.yangqugame.global.TableConfigs;
 import com.yangqugame.message.BaggioProtobufInvokeService;
+import com.yangqugame.message.SessionManager;
+import com.yangqugame.message.annotation.ProtoManager;
 import jazmin.core.Jazmin;
 import jazmin.core.app.Application;
 import jazmin.log.Logger;
@@ -43,6 +46,12 @@ public class BaggioMessageApplication extends Application {
         logger.info(msg);
     }
 
+    /** 系统辅助初始化，配置表加载，运行状态初始化 **/
+    public static void auxInit() {
+        TableConfigs.load();
+        ServerRuntime.init();
+    }
+
     @Override
     public void init() throws Exception {
         super.init();
@@ -50,9 +59,16 @@ public class BaggioMessageApplication extends Application {
         initDb();
         initProtoRelation();
         baggioInfo();
+        auxInit();
 
         ProtobufServer server = Jazmin.getServer(ProtobufServer.class);
+        server.setSessionLifecycleListener(SessionManager.getSessionLifecycleListener());
         BaggioProtobufInvokeService invokeService = new BaggioProtobufInvokeService();
         server.setProtobufInvokeService(invokeService);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        System.out.println("=============== stop ===============");
     }
 }

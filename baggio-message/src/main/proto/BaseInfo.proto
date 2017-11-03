@@ -21,3 +21,9 @@ message LineupInfoMessage{
 	repeated TLineup lineups = 3;//阵容列表
 }
 
+//玩家背包数据
+message BackpackInfoMessage{
+	required int32 num = 1;//背包数量
+	repeated BackpackItem items = 2;//背包物品列表
+}
+

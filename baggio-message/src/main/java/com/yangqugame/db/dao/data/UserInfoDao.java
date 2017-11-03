@@ -1,5 +1,6 @@
 package com.yangqugame.db.dao.data;
 
+import com.yangqugame.comm.db.PUBaseDaoThreadPool;
 import com.yangqugame.comm.db.PUQueryTerms;
 import com.yangqugame.comm.db.PUSmartBeanDAO;
 import com.yangqugame.db.DBManager;
@@ -43,8 +44,8 @@ public class UserInfoDao extends PUSmartBeanDAO<UserInfo> {
         return super.insert(o, withGenerateKey, excludeProperties);
     }
 
-    public int max() {
-        return 0;
+    public static int maxUserId() {
+        return PUBaseDaoThreadPool.queryForInteger(DBManager.getUserPool(), "SELECT MAX(userId) FROM `t_userinfo`;");
     }
 
     public boolean insert(UserInfo o) {

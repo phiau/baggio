@@ -22,8 +22,9 @@ import java.util.List;
 public class OnlineUserActor extends AbstractActor {
 
     private long userId;
-    private List<TFootballerdata> players;
-    private List<TLineup> lineups;
+    private List<TFootballerdata> players;   // 球员信息
+    private List<TLineup> lineups;           // 阵容信息
+    private UserBackpack backpack;           // 背包信息
 
     public static Props props(long userId) {
         return Props.create(OnlineUserActor.class, userId);
@@ -35,6 +36,7 @@ public class OnlineUserActor extends AbstractActor {
         if (null != players && 0 < players.size()) {
             lineups = new TLineupDao().queryList(userId);
         }
+        backpack = new UserBackpack(userId);
         sendBaseInfo2Client();
     }
 

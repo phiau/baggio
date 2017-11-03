@@ -1,8 +1,12 @@
 package com.yangqugame.message;
 
+import com.yangqugame.utils.StringUtils;
+import jazmin.core.Jazmin;
 import jazmin.server.msg.Session;
+import jazmin.server.msg.SessionLifecycleListener;
 import jazmin.server.protobuf.Context;
 import jazmin.server.protobuf.ProtobufMessage;
+import jazmin.server.protobuf.ProtobufServer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +19,23 @@ public class SessionManager {
     private static Map<Integer, Session> accountId2sessionMap = new HashMap<>();    // key:account id, value:session
     private static Map<Session, Integer> session2AccountIdMap = new HashMap<>();    // key:session, value:account id
 
+    private static SessionLifecycleListener sessionLifecycleListener = new SessionLifecycleListener() {
+        @Override
+        public void sessionCreated(Session session) throws Exception {
+            System.out.println("----------- sessionCreated -----------");
+        }
+
+        @Override
+        public void sessionDisconnected(Session session) throws Exception {
+            String principal = session.getPrincipal();
+            if (!StringUtils.isNullOrEmpty(principal)) {
+                int accountId = Integer.parseInt(principal);
+                System.out.println("----------- sessionDisconnected -----------" + accountId);
+            }
+            System.out.println("----------- sessionDisconnected -----------");
+        }
+    };
+
     public static void bindAccountSession(Context context, int accountId) {
         if (accountId2sessionMap.containsKey(accountId)) {
             // 这里是玩家重新建立链接
@@ -22,6 +43,8 @@ public class SessionManager {
         }
         accountId2sessionMap.put(accountId, context.getSession());
         session2AccountIdMap.put(context.getSession(), accountId);
+        ProtobufServer server = Jazmin.getServer(ProtobufServer.class);
+        server.setPrincipal(context.getSession(), "" + accountId, "");
     }
 
     public static int getAccountBySession(Session session) {
@@ -39,5 +62,9 @@ public class SessionManager {
         if (accountId2sessionMap.containsKey(accountId)) {
             sendMessage(accountId2sessionMap.get(accountId), msg);
         }
+    }
+
+    public static SessionLifecycleListener getSessionLifecycleListener() {
+        return sessionLifecycleListener;
     }
 }

@@ -3,7 +3,7 @@ package com.yangqugame.db.entry.config;
 
 public class RoleInfo {
 
-  private int roletype;
+  public int roletype;
   public String name;
   public String iscommon;
   public String bornstar;

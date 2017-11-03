@@ -173,6 +173,9 @@ public class PUSmartBeanDAO<T> {
 		sql.append("delete from ").append(tableName);
 		sql.append(" where 1=1");
 		sql.append(qt.whereStatement());
+		if(qt.limitEnd!=-1){
+			sql.append(" limit ").append(qt.limitEnd);
+		}
         if (null == this.conn) {
             return PUBaseDaoThreadPool.executeUpdate(this.datebasePool, sql.toString(),qt.whereValues());
         }
@@ -423,13 +426,14 @@ public class PUSmartBeanDAO<T> {
 	}
 	//
 	protected  String convertFieldName(String name) {
-		StringBuffer result = new StringBuffer();
-		for (char c : name.toCharArray()) {
-			if (Character.isUpperCase(c)) {
-				result.append("_");
-			}
-			result.append(Character.toLowerCase(c));
-		}
-		return result.toString();
+//		StringBuffer result = new StringBuffer();
+//		for (char c : name.toCharArray()) {
+//			if (Character.isUpperCase(c)) {
+//                result.append("_");
+//            }
+//			result.append(Character.toLowerCase(c));
+//		}
+//		return result.toString();
+        return name.toLowerCase();
 	}
 }

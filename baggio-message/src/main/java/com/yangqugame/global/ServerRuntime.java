@@ -1,7 +1,6 @@
 package com.yangqugame.global;
 
-import com.yangqugame.comm.db.PUBaseDaoThreadPool;
-import com.yangqugame.db.DBManager;
+import com.yangqugame.db.dao.data.UserInfoDao;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -11,18 +10,25 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class ServerRuntime {
 
+    public final static byte SERVER_STATUS_UNNORMAL = 0;
+    public final static byte SERVER_STATUS_NORMAL = 1;
+
     // 服务器状态，1 正常，非 1 系统维护或者启动中
-    private static byte status = 0;
+    private static byte status = SERVER_STATUS_UNNORMAL;
 
     // 最后一个角色 id
     private static AtomicLong lastUserId;
 
     public static void initLastUserId(long lastId) {
+        if (0 == lastId) {
+            String tmp = String.format("%d%02d%06d", BaseConfig.getServerId(), 0, 0);
+            lastId = Long.parseLong(tmp);
+        }
         lastUserId = new AtomicLong(lastId);
     }
 
     private static void initLastUserId() {
-        long id = PUBaseDaoThreadPool.queryForInteger(DBManager.getUserPool(), "SELECT MAX(roleId) FROM `userinfo`;");
+        long id = UserInfoDao.maxUserId();
         ServerRuntime.initLastUserId(id);
     }
 
@@ -39,5 +45,6 @@ public class ServerRuntime {
 
     public static void init() {
         initLastUserId();
+        status = SERVER_STATUS_NORMAL;
     }
 }

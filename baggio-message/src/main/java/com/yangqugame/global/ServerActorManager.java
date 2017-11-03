@@ -9,7 +9,7 @@ import com.yangqugame.user.OnlineUserActor;
  */
 public class ServerActorManager {
 
-    private final static ActorSystem actorSystem = ActorSystem.create("");
+    private final static ActorSystem actorSystem = ActorSystem.create("baggio-server");
 
     public static synchronized ActorRef newOnlineUserActor(long userId) {
         return actorSystem.actorOf(OnlineUserActor.props(userId));

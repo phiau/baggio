@@ -26,15 +26,15 @@ message FootballerData{
 
 //角色信息
 message UserInfo{
-	required int64 roleid = 1;//角色id
-	required int32 accountid = 2;//账号id
-	required string nickname = 3;//角色名
-	required string face = 4;//角色头像
-	required int32 exp = 5;//经验
-	required int32 level = 6;//角色等级
-	required int32 vip = 7;//vip等级
-	required int32 diamond = 8;//钻石
-	required int32 gold = 9;//金币
+	required int64 userid = 1;//
+	required int32 accountid = 2;//
+	required string nickname = 3;//
+	required string face = 4;//
+	required int32 exp = 5;//
+	required int32 level = 6;//
+	required int32 vip = 7;//
+	required int32 diamond = 8;//
+	required int32 gold = 9;//
 	required int32 st = 10;//
 	required int32 bp = 11;//
 	required int32 commonfragment = 12;//
@@ -64,5 +64,11 @@ message TLineup{
 	required int32 position9 = 12;//
 	required int32 position10 = 13;//
 	required int32 position11 = 14;//
+}
+
+//背包
+message BackpackItem{
+	required int32 itemId = 1;//物品id，见 item 配置表
+	required int32 itemNum = 2;//物品数量
 }
 

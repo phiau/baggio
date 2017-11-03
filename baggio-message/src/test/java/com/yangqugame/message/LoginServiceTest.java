@@ -16,15 +16,20 @@ public class LoginServiceTest {
 
     @Test
     public void login() {
-//        ProtobufMessageClient client = new ProtobufMessageClient();
-//        client.connect("127.0.0.1", 2001);
-//        Login.ReqLoginMessage req = Login
-//                .ReqLoginMessage
-//                .newBuilder()
-//                .setAccessToken("rN410T7mYjDxuIhZa0uryDlxU4DK")
-//                .build();
-//        ProtobufMessage msg = client.invokeSync(10001, req.toByteArray());
-//        MatcherAssert.assertThat(msg.getId(), CoreMatchers.equalTo(10002));
+        ProtobufMessageClient client = new ProtobufMessageClient();
+        client.connect("127.0.0.1", 2001);
+        Login.ReqLoginMessage req = Login
+                .ReqLoginMessage
+                .newBuilder()
+                .setAccessToken("Gi0xpw5HiGoa9sk7umjDGZoAOiK0")
+                .build();
+        ProtobufMessage msg = client.invokeSync(101100, req.toByteArray());
+
+        Login.ReqCreateRoleMessage createRoleMessage = Login.ReqCreateRoleMessage.newBuilder().setRoleType(201).build();
+        ProtobufMessage resCreate = client.invokeSync(101102, createRoleMessage.toByteArray());
+        System.out.println(resCreate.getId());
+
+//        MatcherAssert.assertThat(msg.getId(), CoreMatchers.equalTo(101101));
     }
 
 }

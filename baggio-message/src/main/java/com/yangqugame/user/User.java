@@ -22,8 +22,7 @@ import java.util.List;
 public class User {
 
     public static long genUserId() {
-        String tmp = String.format("%d%02d%06d", BaseConfig.getServerId(), 0, ServerRuntime.getNewUserId());
-        return Long.parseLong(tmp);
+        return ServerRuntime.getNewUserId();
     }
 
     private static UserInfo initUserInfo(int accountId, long userId, String nickName) {

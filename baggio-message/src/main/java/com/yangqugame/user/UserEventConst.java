@@ -5,5 +5,6 @@ package com.yangqugame.user;
  */
 public class UserEventConst {
 
-    public final static int user_event_logined = 1;
+    public final static int USER_EVENT_LOGINED = 1;
+    public final static int USER_EVENT_LOGOUT = 2;
 }

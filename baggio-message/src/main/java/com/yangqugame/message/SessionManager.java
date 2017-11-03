@@ -1,5 +1,9 @@
 package com.yangqugame.message;
 
+import com.yangqugame.user.OnlineUserActorManager;
+import com.yangqugame.user.UserEvent;
+import com.yangqugame.user.UserEventConst;
+import com.yangqugame.user.UserManager;
 import com.yangqugame.utils.StringUtils;
 import jazmin.core.Jazmin;
 import jazmin.server.msg.Session;
@@ -30,9 +34,9 @@ public class SessionManager {
             String principal = session.getPrincipal();
             if (!StringUtils.isNullOrEmpty(principal)) {
                 int accountId = Integer.parseInt(principal);
-                System.out.println("----------- sessionDisconnected -----------" + accountId);
+                long userId = UserManager.getUserIdByAccountId(accountId);
+                OnlineUserActorManager.userDisconnect(userId);
             }
-            System.out.println("----------- sessionDisconnected -----------");
         }
     };
 

@@ -65,6 +65,7 @@ public class BaggioMessageApplication extends Application {
         server.setSessionLifecycleListener(SessionManager.getSessionLifecycleListener());
         BaggioProtobufInvokeService invokeService = new BaggioProtobufInvokeService();
         server.setProtobufInvokeService(invokeService);
+
     }
 
     @Override

@@ -94,7 +94,11 @@ public class OnlineUserActor extends AbstractActor {
 
     private void handleEvent(UserEvent event) {
         switch (event.getEvent()) {
-            case UserEventConst.user_event_logined:
+            case UserEventConst.USER_EVENT_LOGINED:
+                System.out.println(String.format("========================== 玩家 %d 登录成功 ==========================", userId));
+                break;
+            case UserEventConst.USER_EVENT_LOGOUT:
+                System.out.println(String.format("========================== 玩家 %d 退出成功 ==========================", userId));
                 break;
             default:
                 break;

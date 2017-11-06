@@ -7,6 +7,7 @@ import org.reflections.Reflections;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -116,6 +117,54 @@ public class ProtoManager {
         return null;
     }
 
+    /**
+     *  针对几种 java 类型，对 pb 值进行特殊转换
+     * @param bean pb 类里面的属性值
+     * @param field java 类属性类型
+     * @return
+     */
+    private static Object castMessage2BeanType(Object bean, Field field) {
+        Class<?> beanType = bean.getClass();
+        Class<?> fieldType = field.getType();
+        if (fieldType.equals(Short.class) || fieldType.equals(short.class)) {
+            if (beanType.equals(Integer.class)) {
+                return ((Integer) bean).shortValue();
+            } else if (beanType.equals(Long.class)) {
+                return ((Long) bean).shortValue();
+            }
+        } else if (fieldType.equals(Byte.class) || fieldType.equals(byte.class)) {
+            if (beanType.equals(Integer.class)) {
+                return ((Integer) bean).byteValue();
+            } else if (beanType.equals(Long.class)) {
+                return ((Long) bean).byteValue();
+            }
+        } else {
+            if (fieldType.equals(Timestamp.class)) {
+                return new Timestamp((Long) bean);
+            } else {
+                return bean;
+            }
+        }
+        return bean;
+    }
+
+    /**
+     *  针对几种 java 类型，对 java 值进行特殊转换
+     * @param bean java bean
+     * @param field java 类属性类型
+     * @return
+     */
+    private static Object castBeanType2Message(Object bean, Field field) {
+        Class<?> fieldType = field.getType();
+        if (fieldType.equals(Byte.class) || fieldType.equals(byte.class)) {
+            return Byte.toUnsignedInt((Byte) bean);
+        }else if (fieldType.equals(Timestamp.class)) {
+            return ((Timestamp) bean).getTime();
+        } else {
+            return bean;
+        }
+    }
+
     public static Message bean2Message(Object bean) {
         try {
             Class beanCls = bean.getClass();
@@ -131,6 +180,7 @@ public class ProtoManager {
                     Field field = beanCls.getDeclaredField(d.getName());
                     field.setAccessible(true);
                     Object v = field.get(bean);
+                    v = castBeanType2Message(v, field);
                     if (null != v) {
                         if (d.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) {
                             if (d.isRepeated()) {
@@ -184,7 +234,7 @@ public class ProtoManager {
         return null;
     }
 
-    private static Object message2Bean(Message message, Class<?> cla) {
+    public static Object message2Bean(Message message, Class<?> cla) {
         try {
             Map<?, ?> map = message.getAllFields();
             Object bean = cla.newInstance();
@@ -203,7 +253,9 @@ public class ProtoManager {
                     }
                 } else {
                     if (null != fd) {
-                        fd.set(bean, map.get(key));
+                        String name = ((Descriptors.FieldDescriptor) key).getName();
+                        Field field = cla.getDeclaredField(name);
+                        fd.set(bean, castMessage2BeanType(map.get(key), field));
                     }
                 }
             }

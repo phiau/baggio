@@ -22,4 +22,8 @@ public class TLineupDao extends PUSmartBeanDAO<TLineup> {
         qt.where("ownerId", ownerId);
         return super.queryList(qt);
     }
+
+    public int insert(TLineup o) {
+        return super.insert(o, false);
+    }
 }

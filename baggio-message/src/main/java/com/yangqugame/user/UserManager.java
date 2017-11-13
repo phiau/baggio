@@ -19,7 +19,7 @@ public class UserManager {
     public static void accountBindUser(int accountId, UserInfo info) {
         userInfoMap.put(accountId, info);
         userId2account.put(info.getUserid(), accountId);
-        OnlineUserActorManager.userLogin(info.userid);
+        OnlineUserActorManager.userLogin(info.getUserid());
     }
 
     public static UserInfo getUserInfoByAccountId(int accountId) {
@@ -28,7 +28,7 @@ public class UserManager {
 
     public static long getUserIdByAccountId(int accountId) {
         if (userInfoMap.containsKey(accountId)) {
-            return userInfoMap.get(accountId).userid;
+            return userInfoMap.get(accountId).getUserid();
         }
         return 0;
     }

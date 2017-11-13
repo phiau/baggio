@@ -303,7 +303,7 @@ public class PUSmartBeanDAO<T> {
 			excludesNames.add(e);
 		}
 		List<Object>fieldList=new ArrayList<Object>();
-		for (Field f : type.getFields()) {
+		for (Field f : type.getDeclaredFields()) {
 			if (excludesNames.contains(f.getName())) {
 				continue;
 			}
@@ -371,7 +371,7 @@ public class PUSmartBeanDAO<T> {
 		}
 		Class<?> type = o.getClass();
 		checkExcludeProperties(excludeProperties,type);
-		for (Field f : type.getFields()) {
+		for (Field f : type.getDeclaredFields()) {
 			if (excludesNames.contains(f.getName())) {
 				continue;
 			}

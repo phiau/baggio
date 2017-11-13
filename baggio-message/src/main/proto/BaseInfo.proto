@@ -27,3 +27,8 @@ message BackpackInfoMessage{
 	repeated BackpackItem items = 2;//背包物品列表
 }
 
+//玩家邮件信息
+message MailInfoMessage{
+	repeated TMail mails = 1;//邮件列表
+}
+

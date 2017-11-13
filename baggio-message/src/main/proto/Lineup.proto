@@ -1,0 +1,29 @@
+//阵容
+
+package x1.proto.pb;
+
+import "BeanContainer.proto";
+
+option java_package = "x1.proto.pb";
+
+option java_outer_classname = "Lineup";
+
+//球员阵容操作结果
+message LineupActionResMessage{
+	required bool isSuccess = 1;//0失败，1成功
+	required LineupAction action = 2;//操作
+	required string error = 3;//失败说明
+}
+
+//球员阵容操作
+message LineupActionReqMessage{
+	required LineupAction action = 1;//操作
+}
+
+//球员训练
+message TrainReqMessage{
+	required BackpackItem userItem = 1;//使用物品
+	required int32 userType = 2;//使用类型
+	required int32 userObject = 3;//使用对象
+}
+

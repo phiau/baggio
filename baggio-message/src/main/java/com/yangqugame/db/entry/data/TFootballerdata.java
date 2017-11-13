@@ -3,6 +3,8 @@ package com.yangqugame.db.entry.data;
 import com.yangqugame.message.annotation.Proto;
 import x1.proto.pb.BeanContainer;
 
+import java.util.List;
+
 @Proto(message = BeanContainer.FootballerData.class)
 public class TFootballerdata {
 
@@ -20,8 +22,12 @@ public class TFootballerdata {
   public int active;
   public int fragment;
   public int mainSkillLev;
-  public int skillLev1_8;
+  public int []skillLevel = {0, 0, 0, 0};
   public int combat;
+
+  public synchronized void addFragment(int num) {
+    this.fragment += num;
+  }
 
 
   public long getOwnerId() {
@@ -149,15 +155,13 @@ public class TFootballerdata {
     this.mainSkillLev = mainSkillLev;
   }
 
-
-  public int getSkillLev1_8() {
-    return skillLev1_8;
+  public int[] getSkillLevel() {
+    return skillLevel;
   }
 
-  public void setSkillLev1_8(int skillLev1_8) {
-    this.skillLev1_8 = skillLev1_8;
+  public void setSkillLevel(int[] skillLevel) {
+    this.skillLevel = skillLevel;
   }
-
 
   public int getCombat() {
     return combat;

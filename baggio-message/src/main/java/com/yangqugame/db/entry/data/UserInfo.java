@@ -6,27 +6,34 @@ import x1.proto.pb.BeanContainer;
 @Proto(message = BeanContainer.UserInfo.class)
 public class UserInfo {
 
-  public long userid;
-  public int accountid;
-  public String nickname;
-  public String face;
-  public int exp;
-  public int level;
-  public int vip;
-  public int diamond;
-  public int gold;
-  public int st;
-  public int bp;
-  public int commonfragment;
-  public int unionid;
-  public int unionposition;
-  public int chiefcoach;
-  public int asscoach;
-  public int chiefscout;
-  public int assscout;
-  public int chiefsponsor;
-  public int asssponsor;
+  private long userid;
+  private int accountid;
+  private String nickname;
+  private String face;
+  private int exp;
+  private int level;
+  private int vip;
+  private int diamond;
+  private int gold;
+  private int honor;
+  private int st;
+  private int bp;
+  private int commonfragment;
+  private int unionid;
+  private int unionposition;
+  private int chiefcoach;
+  private int asscoach;
+  private int chiefscout;
+  private int assscout;
+  private int chiefsponsor;
+  private int asssponsor;
 
+  public synchronized void addExp(int num) { this.exp += num; }
+  public synchronized void addDiamond(int num) { this.diamond += num; }
+  public synchronized void addGold(int num) { this.gold += num; }
+  public synchronized void addHonor(int num) { this.honor += num; }
+  public synchronized void addST(int num) { this.st += num; }
+  public synchronized void addBP(int num) { this.bp += num; }
 
   public long getUserid() {
     return userid;

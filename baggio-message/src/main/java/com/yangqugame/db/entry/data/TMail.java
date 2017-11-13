@@ -1,9 +1,12 @@
 package com.yangqugame.db.entry.data;
 
+import com.yangqugame.message.annotation.Proto;
+import x1.proto.pb.BeanContainer;
 
+@Proto(message = BeanContainer.TMail.class)
 public class TMail {
 
-  public int id;
+  public short id;
   public long userid;
   public long sender;
   public String titile;
@@ -12,11 +15,11 @@ public class TMail {
   public java.sql.Timestamp time;
 
 
-  public int getId() {
+  public short getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(short id) {
     this.id = id;
   }
 

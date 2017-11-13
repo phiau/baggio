@@ -17,31 +17,16 @@ public class UserInfoDao extends PUSmartBeanDAO<UserInfo> {
         super("", "t_userinfo", DBManager.getUserPool());
     }
 
-    @Override
-    protected UserInfo query(PUQueryTerms qt, String... excludeProperties) {
-        return super.query(qt, excludeProperties);
-    }
-
-    public UserInfo query(int accountId) {
+    public UserInfo query(long userId) {
         PUQueryTerms qt = new PUQueryTerms();
-        qt.where("accountId", accountId);
+        qt.where("userId", userId);
         return query(qt);
-    }
-
-    @Override
-    protected List<UserInfo> queryList(PUQueryTerms qt, String... excludeProperties) {
-        return super.queryList(qt, excludeProperties);
     }
 
     public List<UserInfo> queryList(int accountId) {
         PUQueryTerms qt = new PUQueryTerms();
         qt.where("accountId", accountId);
         return queryList(qt);
-    }
-
-    @Override
-    protected int insert(UserInfo o, boolean withGenerateKey, String... excludeProperties) {
-        return super.insert(o, withGenerateKey, excludeProperties);
     }
 
     public static int maxUserId() {

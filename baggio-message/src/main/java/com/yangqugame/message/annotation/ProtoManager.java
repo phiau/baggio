@@ -4,6 +4,7 @@ import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 import org.reflections.Reflections;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -92,6 +93,17 @@ public class ProtoManager {
         return null;
     }
 
+    public static List<?> bean2List(Object bean) {
+        if (bean.getClass().isArray()) {
+            List list = new ArrayList();
+            for (int i=0; i<Array.getLength(bean); i++) {
+                list.add(i, Array.get(bean, i));
+            }
+            return list;
+        }
+        return null;
+    }
+
     public static List<Message> bean2MessageList(Object bean) {
         try {
             if (bean instanceof List) {
@@ -102,6 +114,14 @@ public class ProtoManager {
                 int size = (int) sizeMethod.invoke(bean);
                 for (int i=0; i<size; i++) {
                     Object sub = getMethod.invoke(bean, i);
+                    Message subMsg = bean2Message(sub);
+                    msgList.add(subMsg);
+                }
+                return msgList;
+            } else if (bean.getClass().isArray()) {
+                List<Message> msgList = new ArrayList<>();
+                for (int i=0; i< Array.getLength(bean); i++) {
+                    Object sub = Array.get(bean, i);
                     Message subMsg = bean2Message(sub);
                     msgList.add(subMsg);
                 }
@@ -156,7 +176,9 @@ public class ProtoManager {
      */
     private static Object castBeanType2Message(Object bean, Field field) {
         Class<?> fieldType = field.getType();
-        if (fieldType.equals(Byte.class) || fieldType.equals(byte.class)) {
+        if (fieldType.equals(String.class) && null == bean) {
+            return "";
+        } else if (fieldType.equals(Byte.class) || fieldType.equals(byte.class)) {
             return Byte.toUnsignedInt((Byte) bean);
         }else if (fieldType.equals(Timestamp.class)) {
             return ((Timestamp) bean).getTime();
@@ -191,7 +213,11 @@ public class ProtoManager {
                                 builder.setField(d, m);
                             }
                         } else {
-                            builder.setField(d, v);
+                            if (d.isRepeated()) {
+                                builder.setField(d, bean2List(v));
+                            } else {
+                                builder.setField(d, v);
+                            }
                         }
                     }
                 }

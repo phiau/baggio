@@ -11,12 +11,14 @@ import java.util.List;
  * 玩家背包
  * Created by phiau on 2017/11/2 0002.
  */
-public class UserBackpack {
+public class UserBackpack extends UserBackpackItem {
 
     private long userId;
+    private OnlineUserActor onlineUserActor;
     private List<TBackpackItem> items;
 
-    public UserBackpack(long userId) {
+    public UserBackpack(OnlineUserActor onlineUserActor, long userId) {
+        this.onlineUserActor = onlineUserActor;
         this.userId = userId;
         items = new TBackpackDao().queryList(userId);
     }
@@ -60,8 +62,11 @@ public class UserBackpack {
                     total += item.getItemNum();
                 }
             }
+            // 首先拥有的物品数量要够
             if (total > num) {
                 userItemIn(itemId, num);
+                // 使用物品后的效果逻辑
+                itemAction(onlineUserActor, TableConfigs.getItem(itemId), num, null);
             }
         }
     }

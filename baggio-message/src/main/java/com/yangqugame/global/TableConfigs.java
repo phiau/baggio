@@ -17,12 +17,14 @@ public class TableConfigs {
     private static List<SystemConfig> systemConfigs = new ArrayList<>();
     private static List<RoleInfo> roleInfos = new ArrayList<>();
     private static List<Item> items = new ArrayList<>();
+    private static List<FootballerLevel> fbLevels = new ArrayList<>();
 
     // ----------------------------------------------------------
     private static Set<Integer> createRoleConf = new HashSet<>();
     private static Map<String, String> systemConfigMap = new HashMap<>();
     private static Map<Integer, RoleInfo> roleInfoMap = new HashMap<>();
     private static Map<Integer, Item> itemMap = new HashMap<>();
+    private static Map<Integer, Integer> fbLevelMap = new HashMap<>();
 
     public static void load() {
         if (!isLoadFinish) {
@@ -37,6 +39,7 @@ public class TableConfigs {
         systemConfigs = new SystemConfigDao().queryList();
         roleInfos = new RoleInfoDao().queryList();
         items = new ItemDao().queryList();
+        fbLevels = new FootballerLevelDao().queryList();
         isLoadFinish = true;
         loaded();
     }
@@ -67,6 +70,10 @@ public class TableConfigs {
         for (Item it : items) {
             itemMap.put(it.getId(), it);
         }
+        // 球员等级
+        for (FootballerLevel fbLv : fbLevels) {
+            fbLevelMap.put(fbLv.getLevel(), fbLv.getNextNeed());
+        }
     }
 
     // ======================   ======================
@@ -84,6 +91,13 @@ public class TableConfigs {
 
     public static Item getItem(int id) {
         return itemMap.get(id);
+    }
+
+    public static int getFootballerLevelNextExp(int lv) {
+        if (fbLevelMap.containsKey(lv)) {
+            return fbLevelMap.get(lv);
+        }
+        return Integer.MAX_VALUE;
     }
 
     // ====================== get & set ======================

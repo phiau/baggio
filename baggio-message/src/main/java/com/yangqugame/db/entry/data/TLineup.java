@@ -1,12 +1,15 @@
 package com.yangqugame.db.entry.data;
 
+import com.yangqugame.message.annotation.Proto;
+import x1.proto.pb.BeanContainer;
 
+@Proto(message = BeanContainer.TLineup.class)
 public class TLineup {
 
   public long ownerid;
-  public int lineupid;
+  public int lineupId;
   public int ace;
-  public int []positions = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  public int [] positions = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
   public long getOwnerid() {
     return ownerid;
@@ -16,12 +19,12 @@ public class TLineup {
     this.ownerid = ownerid;
   }
 
-  public int getLineupid() {
-    return lineupid;
+  public int getLineupId() {
+    return lineupId;
   }
 
-  public void setLineupid(int lineupid) {
-    this.lineupid = lineupid;
+  public void setLineupId(int lineupId) {
+    this.lineupId = lineupId;
   }
 
   public int getAce() {

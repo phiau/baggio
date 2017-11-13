@@ -58,7 +58,7 @@ message LineupAction{
 message TLineup{
 	required int32 lineupId = 1;//1~5，分别对应玩家第一~第五套阵容数据
 	required int32 ace = 2;//记录队长的当前位置，为1~11其中一个，不能为空
-	repeated int32 position = 3;//角色ID，同footballerData的roleType
+	repeated int32 positions = 3;//角色ID，同footballerData的roleType
 }
 
 //物品

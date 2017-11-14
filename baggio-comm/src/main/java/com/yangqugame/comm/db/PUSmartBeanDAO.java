@@ -133,6 +133,7 @@ public class PUSmartBeanDAO<T> {
 		List<Object>fieldList=new ArrayList<Object>();
 		sql.append("set ");
 		for (Field f : type.getFields()) {
+		    f.setAccessible(true);
 			if (excludesNames.contains(f.getName())) {
 				continue;
 			}
@@ -312,6 +313,7 @@ public class PUSmartBeanDAO<T> {
 				continue;
 			}
 			try {
+				f.setAccessible(true);
 				Object fieldValue=f.get(o);
 				if(fieldValue!=null&&!WRAP_TYPES.contains(fieldValue.getClass())){
 					fieldList.add(JSON.toJSONString(fieldValue));
@@ -372,6 +374,7 @@ public class PUSmartBeanDAO<T> {
 		Class<?> type = o.getClass();
 		checkExcludeProperties(excludeProperties,type);
 		for (Field f : type.getDeclaredFields()) {
+		    f.setAccessible(true);
 			if (excludesNames.contains(f.getName())) {
 				continue;
 			}

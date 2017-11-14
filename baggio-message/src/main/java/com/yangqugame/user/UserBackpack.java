@@ -117,4 +117,8 @@ public class UserBackpack extends UserBackpackItem {
     protected void delete2DB(TBackpackItem tBackpackItem) {
         new TBackpackDao().delete(tBackpackItem);
     }
+
+    public List<TBackpackItem> getItems() {
+        return items;
+    }
 }

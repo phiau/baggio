@@ -1,5 +1,6 @@
 package com.yangqugame.message;
 
+import com.alibaba.fastjson.JSON;
 import com.google.protobuf.Message;
 import com.yangqugame.message.annotation.ProtoManager;
 import com.yangqugame.user.UserManager;
@@ -33,6 +34,9 @@ public class MessageSender {
     }
 
     public static void sendByAccountId(int accountId, Object o) {
+        long userId = UserManager.getUserIdByAccountId(accountId);
+        String info = String.format("send 2 client, userId=%d, code:%d, content:%s", userId, ProtoManager.getCodeByBean(o.getClass()), JSON.toJSONString(o));
+        System.out.println(info);
         ProtobufMessage protobufMessage = bean2ProtobufMessage(o);
         if (null != protobufMessage) {
             SessionManager.sendMessage(accountId, protobufMessage);

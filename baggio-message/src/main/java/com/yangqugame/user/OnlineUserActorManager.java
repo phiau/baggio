@@ -48,7 +48,8 @@ public class OnlineUserActorManager {
 
     public static void tellActorByUserId(long userId, Object o) {
         if (userActorMap.containsKey(userId)) {
-            userActorMap.get(userId).tell(o, ActorRef.noSender());
+            ActorRef ref = userActorMap.get(userId);
+            ref.tell(o, ActorRef.noSender());
         }
     }
 

@@ -36,7 +36,7 @@ public class ServerRuntime {
         if (null == lastUserId) {
             initLastUserId(0);
         }
-        return lastUserId.getAndIncrement();
+        return lastUserId.incrementAndGet();
     }
 
     public static byte getStatus() {

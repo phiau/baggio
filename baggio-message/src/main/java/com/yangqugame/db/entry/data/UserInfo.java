@@ -9,7 +9,7 @@ public class UserInfo {
   private long userid;
   private int accountid;
   private String nickname;
-  private String face;
+  private String face = "";
   private int exp;
   private int level;
   private int vip;

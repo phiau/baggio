@@ -1,6 +1,9 @@
 package com.yangqugame.db.entry.data;
 
+import com.yangqugame.message.annotation.Proto;
+import x1.proto.pb.BeanContainer;
 
+@Proto(message = BeanContainer.BackpackItem.class)
 public class TBackpackItem {
 
   public long userId;

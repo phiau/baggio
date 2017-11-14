@@ -21,6 +21,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     compile project(':baggio-service')
+    compile project(':baggio-comm')
     compile 'org.github:jazmin:local'
     compile 'com.zaxxer:HikariCP:2.7.2'
     compile "com.google.protobuf:protobuf-java:${protobufVersion}"

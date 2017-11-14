@@ -12,7 +12,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'idea'
 
 ext {
-    protobufVersion = '2.6.1'
+    protobufVersion = '2.5.0'
 }
 
 tasks.withType(JavaCompile) {
